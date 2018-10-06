@@ -1,0 +1,16 @@
+/*.log
+/target
+/*-init.clj
+resources/public/js/compiled
+resources/public/prod/js/compiled
+resources/public/prod/sw.js
+/dev-resources
+/node_modules
+out
+*.swp
+.nrepl-port
+.lein-repl-history
+.lein-failures
+.rebel_readline_history
+.cljs_nashorn_repl
+nashorn_code_cache

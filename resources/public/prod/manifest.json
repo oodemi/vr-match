@@ -1,0 +1,14 @@
+{
+  "short_name": "vr-match",
+  "name": "hoge",
+  "start_url": "/",
+  "background_color": "white",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "icons": [{
+    "src": "/static/img/clojure_logo.png",
+    "type": "image/png",
+    "sizes": "256x256"
+  }],
+  "theme_color": "#00adb5"
+}

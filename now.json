@@ -1,0 +1,7 @@
+{
+  "features": {
+    "cloud": "v2"
+  },
+  "type": "docker",
+  "alias": "vr-match"
+}
