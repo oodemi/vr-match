@@ -4,16 +4,25 @@
     [cljs.loader :as loader]
     [re-frame.core :as re-frame]
     [re-frame.db :as db]
+    [reagent.core :as reagent]
     [reagent.dom.server :as r]
     [secretary.core :as secretary]
     [vr-match.example.container]
     [vr-match.lib.component :as component]
+    [vr-match.lib.components.material-ui :as mui]
     [vr-match.config :as config]
     [vr-match.events :as events]
-    [vr-match.route]))
+    [vr-match.route]
+    ["material-ui"]
+    ["material-ui/styles"]
+    ["material-ui/colors"]))
 
 (def express (js/require "express"))
 (def ^:export app (express))
+
+(def JssProvider (-> (js/require "react-jss/lib/JssProvider") .-default reagent/adapt-react-class))
+(def jss (js/require "react-jss/lib/jss"))
+(def sheets-registry (.-SheetsRegistry jss))
 
 (goog-define static-file-path "/")
 (goog-define dev? false)
@@ -23,7 +32,16 @@
     (enable-console-print!)
     (println "dev mode")))
 
-(defn index []
+(defn app-component
+  [registry generate-class-name theme sheets-manager]
+  [JssProvider {:registry registry
+                :generateClassName generate-class-name}
+   [mui/MuiThemeProvider {:theme theme
+                      :sheetsManager sheets-manager}
+    [component/app]]])
+
+(defn index
+  [app-html css]
   [:html {:lang "en"}
    [:head
     [:meta {:charset "utf-8"}]
@@ -88,9 +106,11 @@
      "]]
    [:body
     [:div#app
-     [component/app]]
+     {:dangerouslySetInnerHTML
+      {:__html app-html}}]
     [:script {:src "/static/js/compiled/cljs_base.js"}]
-    [:script {:src "/static/js/compiled/app.js"}]]
+    [:script {:src "/static/js/compiled/app.js"}]
+    [:style {:id "jss-server-side"} css]]
    [:div
     {:dangerouslySetInnerHTML
      {:__html  (str "<script>window.preload = '" (-> @db/app-db pr-str) "'</script>")}}]
@@ -108,12 +128,24 @@
         }
         </script>"}}])])
 
+(defn- render-index
+  [sheets-registry generate-class-name theme sheets-manager]
+  (let [app-html (r/render-to-string [app-component sheets-registry generate-class-name theme sheets-manager])]
+    (r/render-to-string [index app-html (.toString sheets-registry)])))
+
 (defn handle-render
   [req res]
-  (let [request-path (.-baseUrl req)]
+  (let [request-path (.-baseUrl req)
+        sheets-registry (new sheets-registry)
+        sheets-manager (new js/Map)
+        generate-class-name (mui/create-generate-class-name)
+        theme (mui/theme)]
     (re-frame/dispatch-sync [::events/initialize])
     (secretary/dispatch! request-path)
-    (.format res #js {"text/html" #(.send res (r/render-to-string [index]))})))
+    (.format res #js {"text/html" #(.send res (render-index sheets-registry
+                                                            generate-class-name
+                                                            theme
+                                                            sheets-manager))})))
 
 (defn serve
   [path]
