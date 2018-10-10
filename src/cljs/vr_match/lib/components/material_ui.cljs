@@ -12,6 +12,7 @@
 (def typo-graphy (r/adapt-react-class js/MaterialUI.Toolbar))
 (def icon-button (r/adapt-react-class js/MaterialUI.IconButton))
 
+(def with-styles (.-withStyles js/MaterialUIStyles))
 (def create-mui-theme (.-createMuiTheme js/MaterialUIStyles))
 (def create-generate-class-name (.-createGenerateClassName js/MaterialUIStyles))
 

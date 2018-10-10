@@ -32,6 +32,9 @@
     {:get-child-context (clj->js {sheet-options {"generateClassName" generate-class-name}})
      :reagent-render (fn [_ children] children)}))
 
+(def mui-theme (mui/theme))
+(def mui-generate-class-name (mui/create-generate-class-name))
+
 (defn dev-setup []
   (when config/debug?
     (enable-console-print!)
@@ -45,8 +48,7 @@
 (defn hook-history []
   (pushy/start! history))
 
-(defn index
-  [generate-class-name theme]
+(defn index []
   (reagent/create-class
     {:component-did-mount
      (fn []
@@ -55,17 +57,15 @@
          (when (and jss-styles (.-parentNode jss-styles))
            (.. jss-styles -parentNode (removeChild jss-styles)))))
      :reagent-render
-     (fn [generate-class-name theme]
-       [JSSContextProvider generate-class-name
-        [mui/MuiThemeProvider {:theme theme}
+     (fn []
+       [JSSContextProvider mui-generate-class-name
+        [mui/MuiThemeProvider {:theme mui-theme}
          [component/app]]])}))
 
 (defn ^:export mount-root []
-  (let [theme (mui/theme)
-        generate-class-name (mui/create-generate-class-name)]
-   (re-frame/clear-subscription-cache!)
-   (reagent/render [index generate-class-name theme]
-                   (.getElementById js/document "app"))))
+  (re-frame/clear-subscription-cache!)
+  (reagent/render [index]
+                  (.getElementById js/document "app")))
 
 (defn- preload-state []
   (some->
