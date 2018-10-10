@@ -87,7 +87,9 @@
                     :asset-path      "target/server/prod/js/compiled"
                     :target :nodejs
                     :npm-deps false
+                    :process-shim false
                     :closure-defines {vr-match.server/dev? false
-                                      vr-match.server/static-file-path "resources/public/prod/"}
+                                      vr-match.server/static-file-path "resources/public/prod/"
+                                      goog.DEBUG false}
                     :pretty-print    false}}]})
 

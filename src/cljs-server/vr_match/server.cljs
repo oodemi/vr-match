@@ -4,7 +4,7 @@
     [cljs.loader :as loader]
     [re-frame.core :as re-frame]
     [re-frame.db :as db]
-    [reagent.core :as reagent]
+    [reagent.core :refer [adapt-react-class]]
     [reagent.dom.server :as r]
     [secretary.core :as secretary]
     [vr-match.example.container]
@@ -20,7 +20,7 @@
 (def express (js/require "express"))
 (def ^:export app (express))
 
-(def JssProvider (-> (js/require "react-jss/lib/JssProvider") .-default reagent/adapt-react-class))
+(def JssProvider (-> (js/require "react-jss/lib/JssProvider") .-default adapt-react-class))
 (def jss (js/require "react-jss/lib/jss"))
 (def sheets-registry (.-SheetsRegistry jss))
 
@@ -28,7 +28,7 @@
 (goog-define dev? false)
 
 (defn dev-setup []
-  (when config/debug?
+  (when dev?
     (enable-console-print!)
     (println "dev mode")))
 
@@ -103,14 +103,14 @@
         border-collapse: collapse;
         border-spacing: 0;
       }
-     "]]
+     "]
+    [:style {:id "jss-server-side"} css]]
    [:body
     [:div#app
      {:dangerouslySetInnerHTML
       {:__html app-html}}]
     [:script {:src "/static/js/compiled/cljs_base.js"}]
-    [:script {:src "/static/js/compiled/app.js"}]
-    [:style {:id "jss-server-side"} css]]
+    [:script {:src "/static/js/compiled/app.js"}]]
    [:div
     {:dangerouslySetInnerHTML
      {:__html  (str "<script>window.preload = '" (-> @db/app-db pr-str) "'</script>")}}]
@@ -148,14 +148,14 @@
                                                             sheets-manager))})))
 
 (defn serve
-  [path]
-  (.listen app path))
+  [port]
+  (.listen app port))
 
 (defn -main
   [& args]
-  (let [path (-> args first js/parseInt)]
+  (let [port (-> args first js/parseInt)]
     (dev-setup)
-    (serve path)))
+    (serve port)))
 
 (doto app
   (.use "/sw.js" (.static express (str static-file-path "sw.js")))
