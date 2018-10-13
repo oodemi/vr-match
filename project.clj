@@ -61,9 +61,7 @@
      :compiler     {:main vr-match.client
                     :output-dir      "resources/public/prod/js/compiled"
                     :asset-path      "/static/js/compiled"
-                    ;; TODO: material-ui が production の時クラス名が食い違う問題を解消して :advanced に戻す
-                    ;; :optimizations   :advanced
-                    :optimizations   :none
+                    :optimizations   :advanced
                     :closure-defines {goog.DEBUG false}
                     :pretty-print    false
                     :npm-deps false
