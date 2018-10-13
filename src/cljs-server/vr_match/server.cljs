@@ -37,7 +37,7 @@
   [JssProvider {:registry registry
                 :generateClassName generate-class-name}
    [mui/MuiThemeProvider {:theme theme
-                      :sheetsManager sheets-manager}
+                          :sheetsManager sheets-manager}
     [component/app]]])
 
 (defn index

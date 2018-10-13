@@ -1,9 +1,9 @@
 (ns vr-match.route
   (:require
-    [re-frame.core :as re-frame]
-    [vr-match.util :as util]
-    [vr-match.events :as events]
-    [secretary.core :as secretary :refer-macros [defroute]]))
+   [re-frame.core :as re-frame]
+   [vr-match.util :as util]
+   [vr-match.events :as events]
+   [secretary.core :as secretary :refer-macros [defroute]]))
 
 ;; prefixなし
 (secretary/set-config! :prefix "/")
