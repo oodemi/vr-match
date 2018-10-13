@@ -21,7 +21,6 @@
                  [day8.re-frame/http-fx "0.1.6"]
                  [cljsjs/firebase "5.4.2-1"]
                  [cljsjs/material-ui "3.1.1-0"]
-                 [cljsjs/material-ui-icons "3.0.1-0"]
                  [stylefy "1.9.0"]]
 
   :plugins [[lein-cljsbuild "1.1.7"]]

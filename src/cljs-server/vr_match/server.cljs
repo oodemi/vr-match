@@ -50,6 +50,8 @@
     [:meta {:name "theme-color" :content "#00adb5"}]
     (when-not dev?
       [:link {:rel "manifest" :href "/manifest.json"}])
+    [:link {:rel "stylesheet"
+            :href "https://fonts.googleapis.com/icon?family=Material+Icons"}]
     [:style "
       body {
         font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", YuGothic, "ヒラギノ角ゴ ProN W3", Hiragino Kaku Gothic ProN, Arial, "メイリオ", Meiryo, sans-serif;

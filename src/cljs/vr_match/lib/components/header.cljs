@@ -26,8 +26,7 @@
      [mui/icon-button {:color "inherit"
                        :aria-label "Menu"
                        :class-name (.-menuButton classes)}
-      [mui/no-ssr {:fallback (r/as-element [:div {:style {"width" "24px"}}])}
-       [mui/menu-icon]]]
+      [mui/icon "menu"]]
      [mui/typo-graphy {:variant "title"
                        :color "inherit"
                        :class-name (.-grow classes)}

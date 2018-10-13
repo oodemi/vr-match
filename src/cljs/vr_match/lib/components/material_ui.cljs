@@ -5,19 +5,15 @@
             ;; material-ui のバージョンアップによって変わったのか、 js/material_ui ではなく js/MaterialUI にモジュールが展開されるようになっていた
             ["material-ui"]
             ["material-ui/styles"]
-            ["material-ui/colors"]
-            ["material-ui-icons"]))
+            ["material-ui/colors"]))
 
 ;; material-ui
 (def app-bar (r/adapt-react-class js/MaterialUI.AppBar))
 (def tool-bar (r/adapt-react-class js/MaterialUI.Toolbar))
 (def typo-graphy (r/adapt-react-class js/MaterialUI.Typography))
 (def icon-button (r/adapt-react-class js/MaterialUI.IconButton))
+(def icon (r/adapt-react-class js/MaterialUI.Icon))
 (def no-ssr (r/adapt-react-class js/MaterialUI.NoSsr))
-
-;; material-ui-icons
-(def account-circle (r/adapt-react-class js/MaterialUIIcons.AccountCircle))
-(def menu-icon (r/adapt-react-class js/MaterialUIIcons.Menu))
 
 ;; material-ui/styles
 (def with-styles (.-withStyles js/MaterialUIStyles))
