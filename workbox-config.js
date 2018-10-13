@@ -1,7 +1,7 @@
 module.exports = {
   "globDirectory": "resources/public/prod",
   "globPatterns": [
-    "js/compiled/*.js"
+    "js/compiled/**/*.js"
   ],
   "modifyUrlPrefix": {
       "js/compiled": "/static/js/compiled",
