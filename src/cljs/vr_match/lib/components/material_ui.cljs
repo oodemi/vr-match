@@ -18,6 +18,8 @@
 (def card-action-area (r/adapt-react-class js/MaterialUI.CardActionArea))
 (def card-media (r/adapt-react-class js/MaterialUI.CardMedia))
 (def card-content (r/adapt-react-class js/MaterialUI.CardContent))
+(def grid (r/adapt-react-class js/MaterialUI.Grid))
+(def button (r/adapt-react-class js/MaterialUI.Button))
 
 ;; material-ui/styles
 (def with-styles (.-withStyles js/MaterialUIStyles))

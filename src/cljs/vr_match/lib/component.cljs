@@ -5,7 +5,8 @@
             [vr-match.events]
             [vr-match.subs]
             [vr-match.route :as route]
-            [vr-match.lib.components.header :refer [header]]))
+            [vr-match.lib.components.header :refer [header]]
+            [vr-match.lib.components.material-ui :as mui]))
 
 ;; (defn- header
 ;;   [{:keys [title]}]
@@ -41,8 +42,14 @@
 
 (defn app []
   (let [router (re-frame/subscribe [::vr-match.subs/router])]
-    [:div
-     [header {:title (-> @router :key route/route-table :title)}]
-     [:div {:style {:padding "60px 0 64px 0"}}
+    [mui/grid {:container true
+               :align-items "center"
+               :justify "center"
+               :direction "column"}
+     [mui/grid {:item true
+                :style {:width "100%"}}
+      [header {:title (-> @router :key route/route-table :title)}]]
+     [mui/grid {:item true
+                :style {:height "calc(100% - 56px)"}}
       [(or (some-> @router :key route/route-table :container .call) loading)
        (-> @router :params)]]]))
