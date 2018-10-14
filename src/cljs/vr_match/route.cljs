@@ -9,9 +9,12 @@
 (secretary/set-config! :prefix "/")
 
 (def route-table
-  {:example {:title "Example"
+  {:example {:title "サンプルページ"
              :container #(resolve 'vr-match.example.container/box)
-             :module-name :example}})
+             :module-name :example}
+   :approach {:title "Approach"
+             :container #(resolve 'vr-match.approach.container/approach)
+             :module-name :approach}})
 
 (defn- lazy-push
   [key params]
@@ -19,7 +22,7 @@
 
 ;; ルーティング定義
 (defroute root-path "/" []
-  (lazy-push :example {}))
+  (lazy-push :approach {}))
 
 (defroute not-found-path "*" []
   (lazy-push :example {}))

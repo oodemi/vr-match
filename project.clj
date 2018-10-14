@@ -4,6 +4,9 @@
   {:example {:entries #{"vr-match.example.container"}
              :output-to (str output-dir "/example.js")
              :depends-on #{:client}}
+   :approach {:entries #{"vr-match.approach.container"}
+             :output-to (str output-dir "/approach.js")
+             :depends-on #{:client}}
    ;; 分割されたモジュールをロードするために最低限必要なモジュール
    ;; モジュールの分割を行うと必ずこのモジュールが分割されるので出力先ファイル名だけ変更している
    :cljs-base {:output-to (str output-dir "/cljs_base.js")}
