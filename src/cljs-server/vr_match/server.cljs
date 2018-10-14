@@ -12,10 +12,7 @@
     [vr-match.lib.components.material-ui :as mui]
     [vr-match.config :as config]
     [vr-match.events :as events]
-    [vr-match.route]
-    ["material-ui"]
-    ["material-ui/styles"]
-    ["material-ui/colors"]))
+    [vr-match.route]))
 
 (def express (js/require "express"))
 (def ^:export app (express))
