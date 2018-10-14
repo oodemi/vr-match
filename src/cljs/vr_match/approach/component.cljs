@@ -20,18 +20,18 @@
   [{:keys [classes] :as props}]
   [mui/card {:class-name (.-card classes)}
    [mui/card-action-area {:class-name (.-actionArea classes)}
-     [mui/card-media {:class-name (.-media classes)
-                      :component "div"
-                      :alt "サンプル画像"
-                      :image "https://storage.googleapis.com/boxp-tmp/profile_sample.jpg"
-                      :title "サンプル画像"}]
-     [mui/card-content {:class-name (.-content classes)}
-      [mui/typo-graphy {:gutterBottom true
-                        :variant "subheading"
-                        :component "h2"}
-       "一箱"]
-      [mui/typo-graphy {:component "p"}
-       "バーチャル清楚系女子高校生Webアプリケーションエンジニアおじさんです。こっそりプログラミングしてます。"]]]])
+    [mui/card-media {:class-name (.-media classes)
+                     :component "div"
+                     :alt "サンプル画像"
+                     :image "https://storage.googleapis.com/boxp-tmp/profile_sample.jpg"
+                     :title "サンプル画像"}]
+    [mui/card-content {:class-name (.-content classes)}
+     [mui/typo-graphy {:gutterBottom true
+                       :variant "subheading"
+                       :component "h2"}
+      "一箱"]
+     [mui/typo-graphy {:component "p"}
+      "バーチャル清楚系女子高校生Webアプリケーションエンジニアおじさんです。こっそりプログラミングしてます。"]]]])
 
 (defn card-item
   [props]
