@@ -19,7 +19,6 @@
                  [secretary "1.2.3"]
                  [kibu/pushy "0.3.8"]
                  [day8.re-frame/http-fx "0.1.6"]
-                 [cljsjs/firebase "5.4.2-1"]
                  [cljsjs/material-ui "3.1.1-0"]
                  [stylefy "1.9.0"]]
 
@@ -86,6 +85,7 @@
                     :preamble ["ssr-preamble.js"]
                     :asset-path      "target/server/prod/js/compiled"
                     :target :nodejs
+                    :optimizations   :simple
                     :npm-deps false
                     :process-shim false
                     :closure-defines {vr-match.server/dev? false

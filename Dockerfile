@@ -16,4 +16,5 @@ RUN mkdir -p /usr/src/app
 COPY --from=clojure /usr/src/app /usr/src/app
 WORKDIR /usr/src/app
 RUN npm run workbox
+RUN sed -i -e 's/goog.global.React/global.React/g' -e 's/goog.global.ReactDOM/global.ReactDOM/g' -e 's/goog.global.createReactClass/global.createReactClass/g' target/server/prod/js/compiled/server.js
 CMD ["node", "target/server/prod/js/compiled/server.js", "3000"]

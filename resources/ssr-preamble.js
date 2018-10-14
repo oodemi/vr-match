@@ -3,9 +3,11 @@
 var React = require("react");
 var ReactDOM = {server: require("react-dom/server")};
 var ReactDOMServer = require("react-dom/server");
+var createReactClass = require("create-react-class");
 global.React = React;
 global.ReactDOM = ReactDOM;
 global.ReactDOMServer = ReactDOMServer;
+global.createReactClass = createReactClass;
 
 // material-ui の universal 対応のための workaround
 // もっといい手があれば知りたい

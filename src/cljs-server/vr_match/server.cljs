@@ -54,7 +54,7 @@
             :href "https://fonts.googleapis.com/icon?family=Material+Icons"}]
     [:style "
       body {
-        font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", YuGothic, "ヒラギノ角ゴ ProN W3", Hiragino Kaku Gothic ProN, Arial, "メイリオ", Meiryo, sans-serif;
+        font-family: -apple-system, BlinkMacSystemFont, Helvetica Neue, YuGothic, ヒラギノ角ゴ ProN W3, Hiragino Kaku Gothic ProN, Arial, メイリオ, Meiryo, sans-serif;
       }
 
       /* http://meyerweb.com/eric/tools/css/reset/
