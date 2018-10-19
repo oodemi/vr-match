@@ -60,7 +60,7 @@
              :justify "space-around"}
    [mui/button {:variant "fab"
                 :aria-label "スキップ"}
-    [mui/icon "archive"]]
+    [mui/icon "reply"]]
    [mui/button {:variant "fab"
                 :color "secondary"
                 :aria-label "すき"}
