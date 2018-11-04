@@ -1,0 +1,16 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: vr-match
+spec:
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: vr-match
+    spec:
+      containers:
+      - name: vr-match
+        image: gcr.io/${PROJECT_ID}/vr-match:${REVISION_ID}
+        ports:
+        - containerPort: 3000
