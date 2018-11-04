@@ -3,9 +3,13 @@
             [reagent.core :as r]
             [vr-match.lib.components.material-ui :as mui]))
 
+(defonce action-buttons-state
+  (r/atom {:swiped? false
+           :favorited? false}))
+
 (def card-item-styles
-  #js {"card" #js {"width" "100%"
-                   "height" "100%"}
+  #js {"card" #js {"width" "86vw"
+                   "height" "74vh"}
        "actionArea" #js {"height" "100%"
                          "position" "relative"
                          "display" "flex"
@@ -17,35 +21,56 @@
        "content" #js {"flexGrow" 1}})
 
 (defn card-item-component
-  [{:keys [classes] :as props}]
-  [mui/card {:class-name (.-card classes)}
-   [mui/card-action-area {:class-name (.-actionArea classes)}
-    [mui/card-media {:class-name (.-media classes)
-                     :component "div"
-                     :alt "サンプル画像"
-                     :image "https://storage.googleapis.com/boxp-tmp/profile_sample.jpg"
-                     :title "サンプル画像"}]
-    [mui/card-content {:class-name (.-content classes)}
-     [mui/typo-graphy {:gutterBottom true
-                       :variant "subheading"
-                       :component "h2"}
-      "一箱"]
-     [mui/typo-graphy {:component "p"}
-      "バーチャル清楚系女子高校生Webアプリケーションエンジニアおじさんです。こっそりプログラミングしてます。"]]]])
+  [{:keys [classes
+           title
+           image
+           user-name
+           introduction] :as props}]
+  (let [swiped? (:swiped? @action-buttons-state)
+        favorited? (:favorited? @action-buttons-state)]
+    [mui/slide {:direction (if swiped? "right" "left")
+                :appear false
+                :in (not (or swiped? favorited?))}
+     [mui/card {:class-name (.-card classes)}
+      [mui/card-action-area {:class-name (.-actionArea classes)}
+       [mui/card-media {:class-name (.-media classes)
+                        :component "div"
+                        :alt title
+                        :image image
+                        :title title}]
+       [mui/card-content {:class-name (.-content classes)}
+        [mui/typo-graphy {:gutterBottom true
+                          :variant "subheading"
+                          :component "h2"}
+         user-name]
+        [mui/typo-graphy {:component "p"}
+         introduction]]]]]))
 
 (defn card-item
   [props]
   [(r/adapt-react-class ((mui/with-styles card-item-styles) (r/reactify-component card-item-component))) props])
 
+;; TODO: re-frameとつなぎこんで消す
+(def items
+  [
+   {:title "サンプル画像"
+    :user-name "一箱"
+    :introduction "バーチャル清楚系女子高校生Webアプリケーションエンジニアおじさんです。こっそりプログラミングしてます。"
+    :image "https://storage.googleapis.com/boxp-tmp/profile_sample.jpg"}
+   ]
+  )
+
 (def cards-styles
-  #js {"root" #js {"height" "76%"
-                   "width" "86%"}})
+  #js {"root" #js {"height" "74vh"
+                   "width" "86vw"
+                   "position" "relative"}})
 
 (defn cards-component
   [{:keys [classes] :as props}]
   [mui/grid {:item true
              :class-name (.-root classes)}
-   [card-item {}]])
+   (map (fn [item] ^{:key (:user-name item)}
+          [card-item item]) items)])
 
 (defn cards
   [props]
@@ -59,11 +84,15 @@
   [mui/grid {:container true
              :justify "space-around"}
    [mui/button {:variant "fab"
-                :aria-label "スキップ"}
+                :aria-label "スキップ"
+                :onClick (fn []
+                            (swap! action-buttons-state #(assoc % :swiped? true)))}
     [mui/icon "reply"]]
    [mui/button {:variant "fab"
                 :color "secondary"
-                :aria-label "すき"}
+                :aria-label "すき"
+                :onClick (fn []
+                           (swap! action-buttons-state #(assoc % :favorited? true)))}
     [mui/icon "favorite"]]])
 
 (defn action-buttons

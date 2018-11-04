@@ -20,6 +20,7 @@
 (def card-content (r/adapt-react-class js/MaterialUI.CardContent))
 (def grid (r/adapt-react-class js/MaterialUI.Grid))
 (def button (r/adapt-react-class js/MaterialUI.Button))
+(def slide (r/adapt-react-class js/MaterialUI.Slide))
 
 ;; material-ui/styles
 (def with-styles (.-withStyles js/MaterialUIStyles))
