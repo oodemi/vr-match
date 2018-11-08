@@ -3,9 +3,20 @@
             [reagent.core :as r]
             [vr-match.lib.components.material-ui :as mui]))
 
-(defonce action-buttons-state
+;; TODO: re-frameとつなぎこんで消す
+(def action-buttons-state
   (r/atom {:swiped? false
-           :favorited? false}))
+           :favorited? false
+           :card-items [
+                        {:title "サンプル画像"
+                         :user-name "一箱"
+                         :introduction "バーチャル清楚系女子高校生Webアプリケーションエンジニアおじさんです。こっそりプログラミングしてます。"
+                         :image "https://storage.googleapis.com/boxp-tmp/profile_sample.jpg"}
+                        {:title "サンプル画像"
+                         :user-name "ヒマリ"
+                         :introduction "バーチャル清楚系女子高校生Webアプリケーションエンジニアおじさんです。こっそりプログラミングしてます。"
+                         :image "https://storage.googleapis.com/boxp-tmp/profile_sample.jpg"}
+                        ]}))
 
 (def card-item-styles
   #js {"card" #js {"width" "86vw"
@@ -30,6 +41,7 @@
         favorited? (:favorited? @action-buttons-state)]
     [mui/slide {:direction (if swiped? "right" "left")
                 :appear false
+                :exit true
                 :in (not (or swiped? favorited?))}
      [mui/card {:class-name (.-card classes)}
       [mui/card-action-area {:class-name (.-actionArea classes)}
@@ -50,16 +62,6 @@
   [props]
   [(r/adapt-react-class ((mui/with-styles card-item-styles) (r/reactify-component card-item-component))) props])
 
-;; TODO: re-frameとつなぎこんで消す
-(def items
-  [
-   {:title "サンプル画像"
-    :user-name "一箱"
-    :introduction "バーチャル清楚系女子高校生Webアプリケーションエンジニアおじさんです。こっそりプログラミングしてます。"
-    :image "https://storage.googleapis.com/boxp-tmp/profile_sample.jpg"}
-   ]
-  )
-
 (def cards-styles
   #js {"root" #js {"height" "74vh"
                    "width" "86vw"
@@ -70,7 +72,8 @@
   [mui/grid {:item true
              :class-name (.-root classes)}
    (map (fn [item] ^{:key (:user-name item)}
-          [card-item item]) items)])
+          [card-item item])
+        (->> @action-buttons-state :card-items (take 2)))])
 
 (defn cards
   [props]
@@ -85,14 +88,14 @@
              :justify "space-around"}
    [mui/button {:variant "fab"
                 :aria-label "スキップ"
-                :onClick (fn []
-                            (swap! action-buttons-state #(assoc % :swiped? true)))}
+                :on-click (fn []
+                            (swap! action-buttons-state #(update % :card-items rest)))}
     [mui/icon "reply"]]
    [mui/button {:variant "fab"
                 :color "secondary"
                 :aria-label "すき"
-                :onClick (fn []
-                           (swap! action-buttons-state #(assoc % :favorited? true)))}
+                :on-click (fn []
+                           (swap! action-buttons-state #(update % :card-items rest)))}
     [mui/icon "favorite"]]])
 
 (defn action-buttons
