@@ -22,8 +22,9 @@
                  [secretary "1.2.3"]
                  [kibu/pushy "0.3.8"]
                  [day8.re-frame/http-fx "0.1.6"]
+                 [stylefy "1.9.0"]
                  [cljsjs/material-ui "3.1.1-0"]
-                 [stylefy "1.9.0"]]
+                 [cljsjs/react-transition-group "2.4.0-0"]]
 
   :plugins [[lein-cljsbuild "1.1.7"]]
 

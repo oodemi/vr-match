@@ -1,22 +1,8 @@
 (ns vr-match.approach.component
   (:require [cljs.spec.alpha :as s]
             [reagent.core :as r]
-            [vr-match.lib.components.material-ui :as mui]))
-
-;; TODO: re-frameとつなぎこんで消す
-(def action-buttons-state
-  (r/atom {:swiped? false
-           :favorited? false
-           :card-items [
-                        {:title "サンプル画像"
-                         :user-name "一箱"
-                         :introduction "バーチャル清楚系女子高校生Webアプリケーションエンジニアおじさんです。こっそりプログラミングしてます。"
-                         :image "https://storage.googleapis.com/boxp-tmp/profile_sample.jpg"}
-                        {:title "サンプル画像"
-                         :user-name "ヒマリ"
-                         :introduction "バーチャル清楚系女子高校生Webアプリケーションエンジニアおじさんです。こっそりプログラミングしてます。"
-                         :image "https://storage.googleapis.com/boxp-tmp/profile_sample.jpg"}
-                        ]}))
+            [vr-match.lib.components.material-ui :as mui]
+            [vr-match.lib.components.react-transition-group :refer [transition-group css-transition]]))
 
 (def card-item-styles
   #js {"card" #js {"width" "86vw"
@@ -33,16 +19,13 @@
 
 (defn card-item-component
   [{:keys [classes
-           title
-           image
-           user-name
-           introduction] :as props}]
-  (let [swiped? (:swiped? @action-buttons-state)
-        favorited? (:favorited? @action-buttons-state)]
-    [mui/slide {:direction (if swiped? "right" "left")
-                :appear false
-                :exit true
-                :in (not (or swiped? favorited?))}
+           item]
+    :as props}]
+  (let [{:keys [title
+                userName
+                introduction
+                image]}
+        (js->clj item :keywordize-keys true)]
      [mui/card {:class-name (.-card classes)}
       [mui/card-action-area {:class-name (.-actionArea classes)}
        [mui/card-media {:class-name (.-media classes)
@@ -54,9 +37,9 @@
         [mui/typo-graphy {:gutterBottom true
                           :variant "subheading"
                           :component "h2"}
-         user-name]
+         userName]
         [mui/typo-graphy {:component "p"}
-         introduction]]]]]))
+         introduction]]]]))
 
 (defn card-item
   [props]
@@ -65,15 +48,24 @@
 (def cards-styles
   #js {"root" #js {"height" "74vh"
                    "width" "86vw"
-                   "position" "relative"}})
+                   "position" "relative"}
+       "slideRightExit" #js {"transition" "transform 300ms ease-in"
+                             "transform" "translateX(0)"}
+       "slideRightExitActive" #js {"transition" "transform 300ms ease-in"
+                                   "transform" "translateX(100vw)"}})
 
 (defn cards-component
-  [{:keys [classes] :as props}]
-  [mui/grid {:item true
-             :class-name (.-root classes)}
-   (map (fn [item] ^{:key (:user-name item)}
-          [card-item item])
-        (->> @action-buttons-state :card-items (take 2)))])
+  [{:keys [classes
+           items] :as props}]
+  [mui/grid {:item true}
+   [transition-group {:className (.-root classes)}
+    (map (fn [item]
+           [css-transition {:key (.-userName item)
+                            :timeout 3000
+                            :classNames #js {"exit" (.-slideRightExit classes)
+                                             "exitActive" (.-slideRightExitActive classes)
+                                             "exitDone" (.-slideRightExitActive classes)}}
+            [card-item {:item item}]]) items)]])
 
 (defn cards
   [props]
@@ -83,19 +75,19 @@
   #js {"root" #js {}})
 
 (defn action-buttons-component
-  [{:keys [classes] :as props}]
+  [{:keys [classes
+           onClickSkip
+           onClickFavorite] :as props}]
   [mui/grid {:container true
              :justify "space-around"}
    [mui/button {:variant "fab"
                 :aria-label "スキップ"
-                :on-click (fn []
-                            (swap! action-buttons-state #(update % :card-items rest)))}
+                :on-click onClickSkip}
     [mui/icon "reply"]]
    [mui/button {:variant "fab"
                 :color "secondary"
                 :aria-label "すき"
-                :on-click (fn []
-                           (swap! action-buttons-state #(update % :card-items rest)))}
+                :on-click onClickFavorite}
     [mui/icon "favorite"]]])
 
 (defn action-buttons
@@ -106,7 +98,10 @@
   #js {"root" #js {"height" "100%"}})
 
 (defn approach-component
-  [{:keys [classes] :as props}]
+  [{:keys [classes
+           cardItems
+           handleClickSkip
+           handleClickFavorite] :as props}]
   [mui/grid {:container true
              :align-items "center"
              :justify "space-around"
@@ -114,9 +109,10 @@
              :class-name (.-root classes)}
    [mui/grid {:container true
               :justify "center"}
-    [cards {}]]
-   [action-buttons {}]])
+    [cards {:items cardItems}]]
+   [action-buttons {:onClickSkip handleClickSkip
+                    :onClickFavorite handleClickFavorite}]])
 
 (defn approach
-  [params]
-  [(r/adapt-react-class ((mui/with-styles approach-styles) (r/reactify-component approach-component))) params])
+  [props]
+  [(r/adapt-react-class ((mui/with-styles approach-styles) (r/reactify-component approach-component))) props])
