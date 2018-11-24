@@ -5,7 +5,8 @@
 
 (def card-item-styles
   #js {"card" #js {"width" "86vw"
-                   "height" "74vh"}
+                   "height" "74vh"
+                   "position" "relative"}
        "actionArea" #js {"height" "100%"
                          "position" "relative"
                          "display" "flex"
@@ -18,14 +19,24 @@
 
 (defn card-item-component
   [{:keys [classes
-           item]
+           item
+           isSwiped
+           isFavorited
+           restCard?]
     :as props}]
   (let [{:keys [title
                 userName
                 introduction
                 image]}
         (js->clj item :keywordize-keys true)]
-     [mui/card {:class-name (.-card classes)}
+    [mui/slide {:direction "right"
+                :appear false
+                :in (or (not (or isSwiped isFavorited))
+                         restCard?)}
+     [mui/card {:class-name (.-card classes)
+                :style {"marginTop" (when restCard? "-74vh")
+                        "zIndex" (if restCard? "1000" "1200")}
+                :elevation (if restCard? 1 2)}
       [mui/card-action-area {:class-name (.-actionArea classes)}
        [mui/card-media {:class-name (.-media classes)
                         :component "div"
@@ -38,7 +49,7 @@
                           :component "h2"}
          userName]
         [mui/typo-graphy {:component "p"}
-         introduction]]]]))
+         introduction]]]]]))
 
 (defn card-item
   [props]
@@ -51,10 +62,16 @@
 
 (defn cards-component
   [{:keys [classes
-           items] :as props}]
+           items
+           isSwiped
+           isFavorited] :as props}]
   [mui/grid {:item true}
-   (map (fn [item]
-          ^{:key (:id item)} [card-item {:item item}]) items)])
+   (map-indexed (fn [idx item]
+                  ^{:key (.-id item)}
+                  [card-item {:item item
+                              :isSwiped isSwiped
+                              :isFavorited isFavorited
+                              :restCard? (not (= 0 idx))}]) items)])
 
 (defn cards
   [props]
@@ -88,6 +105,8 @@
 
 (defn approach-component
   [{:keys [classes
+           isSwiped
+           isFavorited
            cardItems
            handleClickSkip
            handleClickFavorite] :as props}]
@@ -98,7 +117,9 @@
              :class-name (.-root classes)}
    [mui/grid {:container true
               :justify "center"}
-    [cards {:items cardItems}]]
+    [cards {:items cardItems
+            :isFavorited isFavorited
+            :isSwiped isSwiped}]]
    [action-buttons {:onClickSkip handleClickSkip
                     :onClickFavorite handleClickFavorite}]])
 
