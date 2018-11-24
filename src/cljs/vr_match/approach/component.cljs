@@ -1,8 +1,7 @@
 (ns vr-match.approach.component
   (:require [cljs.spec.alpha :as s]
             [reagent.core :as r]
-            [vr-match.lib.components.material-ui :as mui]
-            [vr-match.lib.components.react-transition-group :refer [transition-group css-transition]]))
+            [vr-match.lib.components.material-ui :as mui]))
 
 (def card-item-styles
   #js {"card" #js {"width" "86vw"
@@ -48,24 +47,14 @@
 (def cards-styles
   #js {"root" #js {"height" "74vh"
                    "width" "86vw"
-                   "position" "relative"}
-       "slideRightExit" #js {"transition" "transform 300ms ease-in"
-                             "transform" "translateX(0)"}
-       "slideRightExitActive" #js {"transition" "transform 300ms ease-in"
-                                   "transform" "translateX(100vw)"}})
+                   "position" "relative"}})
 
 (defn cards-component
   [{:keys [classes
            items] :as props}]
   [mui/grid {:item true}
-   [transition-group {:className (.-root classes)}
-    (map (fn [item]
-           [css-transition {:key (.-userName item)
-                            :timeout 3000
-                            :classNames #js {"exit" (.-slideRightExit classes)
-                                             "exitActive" (.-slideRightExitActive classes)
-                                             "exitDone" (.-slideRightExitActive classes)}}
-            [card-item {:item item}]]) items)]])
+   (map (fn [item]
+          ^{:key (:id item)} [card-item {:item item}]) items)])
 
 (defn cards
   [props]
