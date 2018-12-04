@@ -18,17 +18,16 @@
                  :isFavorited false
                  :handleClickSkip handle-click-swipe
                  :handleClickFavorite handle-click-favorite
-                 :cardItems [
-                              {:id 1
-                               :title "サンプル画像"
-                               :userName "一箱"
-                               :introduction "バーチャル清楚系女子高校生Webアプリケーションエンジニアおじさんです。こっそりプログラミングしてます。"
-                               :image "https://storage.googleapis.com/boxp-tmp/profile_sample.jpg"}
-                              {:id 2
-                               :title "サンプル画像"
-                               :userName "ヒマリ"
-                               :introduction "バーチャル清楚系女子高校生Webアプリケーションエンジニアおじさんです。こっそりプログラミングしてます。"
-                               :image "https://storage.googleapis.com/boxp-tmp/profile_sample.jpg"}]}))
+                 :cardItems [{:id 1
+                              :title "サンプル画像"
+                              :userName "一箱"
+                              :introduction "バーチャル清楚系女子高校生Webアプリケーションエンジニアおじさんです。こっそりプログラミングしてます。"
+                              :image "https://storage.googleapis.com/boxp-tmp/profile_sample.jpg"}
+                             {:id 2
+                              :title "サンプル画像"
+                              :userName "ヒマリ"
+                              :introduction "バーチャル清楚系女子高校生Webアプリケーションエンジニアおじさんです。こっそりプログラミングしてます。"
+                              :image "https://storage.googleapis.com/boxp-tmp/profile_sample.jpg"}]}))
 
 (defn approach
   [params]

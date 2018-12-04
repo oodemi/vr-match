@@ -32,7 +32,7 @@
     [mui/slide {:direction "right"
                 :appear false
                 :in (or (not (or isSwiped isFavorited))
-                         restCard?)}
+                        restCard?)}
      [mui/card {:class-name (.-card classes)
                 :style {"marginTop" (when restCard? "-74vh")
                         "zIndex" (if restCard? "1000" "1200")}

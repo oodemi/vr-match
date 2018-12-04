@@ -16,8 +16,8 @@
 (s/def ::header-component-props
   (s/keys :req [::title ::classes]))
 (s/fdef header-component
-        :args (s/cat :props ::header-component-props)
-        :ret vector?)
+  :args (s/cat :props ::header-component-props)
+  :ret vector?)
 (defn header-component
   [{:keys [title classes] :as props}]
   [:div {:class-name (.-root classes)}
@@ -35,7 +35,7 @@
 (s/def ::header-props
   (s/keys :req [::title]))
 (s/fdef header
-        :args (s/cat :props ::header-props)
-        :ret vector?)
+  :args (s/cat :props ::header-props)
+  :ret vector?)
 (def header
   (r/adapt-react-class ((mui/with-styles styles) (r/reactify-component header-component))))
