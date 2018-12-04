@@ -37,6 +37,5 @@
 (s/fdef header
         :args (s/cat :props ::header-props)
         :ret vector?)
-(defn header
-  [props]
-  [(r/adapt-react-class ((mui/with-styles styles) (r/reactify-component header-component))) props])
+(def header
+  (r/adapt-react-class ((mui/with-styles styles) (r/reactify-component header-component))))
