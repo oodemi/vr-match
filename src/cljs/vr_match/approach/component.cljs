@@ -51,9 +51,8 @@
         [mui/typo-graphy {:component "p"}
          introduction]]]]]))
 
-(defn card-item
-  [props]
-  [(r/adapt-react-class ((mui/with-styles card-item-styles) (r/reactify-component card-item-component))) props])
+(def card-item
+  (r/adapt-react-class ((mui/with-styles card-item-styles) (r/reactify-component card-item-component))))
 
 (def cards-styles
   #js {"root" #js {"height" "74vh"
@@ -73,9 +72,8 @@
                               :isFavorited isFavorited
                               :restCard? (not (= 0 idx))}]) items)])
 
-(defn cards
-  [props]
-  [(r/adapt-react-class ((mui/with-styles cards-styles) (r/reactify-component cards-component))) props])
+(def cards
+  (r/adapt-react-class ((mui/with-styles cards-styles) (r/reactify-component cards-component))))
 
 (def action-buttons-styles
   #js {"root" #js {}})
@@ -96,9 +94,8 @@
                 :on-click onClickFavorite}
     [mui/icon "favorite"]]])
 
-(defn action-buttons
-  [props]
-  [(r/adapt-react-class ((mui/with-styles action-buttons-styles) (r/reactify-component action-buttons-component))) props])
+(def action-buttons
+  (r/adapt-react-class ((mui/with-styles action-buttons-styles) (r/reactify-component action-buttons-component))))
 
 (def approach-styles
   #js {"root" #js {"height" "100%"}})
@@ -123,6 +120,5 @@
    [action-buttons {:onClickSkip handleClickSkip
                     :onClickFavorite handleClickFavorite}]])
 
-(defn approach
-  [props]
-  [(r/adapt-react-class ((mui/with-styles approach-styles) (r/reactify-component approach-component))) props])
+(def approach
+  (r/adapt-react-class ((mui/with-styles approach-styles) (r/reactify-component approach-component))))

@@ -8,10 +8,10 @@
 (declare approach-state)
 
 (defn handle-click-swipe []
-  (swap! approach-state #(assoc % :isSwiped true)))
+  (swap! approach-state #(update % :isSwiped not)))
 
 (defn handle-click-favorite []
-  (swap! approach-state #(assoc % :isFavorited true)))
+  (swap! approach-state #(update % :isFavorited not)))
 
 (def approach-state
   (reagent/atom {:isSwiped false
@@ -28,8 +28,7 @@
                                :title "サンプル画像"
                                :userName "ヒマリ"
                                :introduction "バーチャル清楚系女子高校生Webアプリケーションエンジニアおじさんです。こっそりプログラミングしてます。"
-                               :image "https://storage.googleapis.com/boxp-tmp/profile_sample.jpg"}
-                              ]}))
+                               :image "https://storage.googleapis.com/boxp-tmp/profile_sample.jpg"}]}))
 
 (defn approach
   [params]
