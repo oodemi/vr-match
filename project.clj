@@ -39,7 +39,8 @@
   {:dev
    {:dependencies [[binaryage/devtools "0.9.10"]]
     :plugins      [[lein-figwheel "0.5.16"]
-                   [lein-cljfmt "0.6.2"]]}
+                   [lein-cljfmt "0.6.2"]
+                   [figwheel-sidecar "0.5.4-6"]]}
    :prod { }
    }
 
