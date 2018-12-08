@@ -9,6 +9,16 @@ spec:
       labels:
         app: vr-match
     spec:
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: app
+                operator: In
+                values:
+                - vr-match
+            topologyKey: "kubernetes.io/hostname"
       containers:
       - name: vr-match
         image: gcr.io/${PROJECT_ID}/vr-match:${REVISION_ID}
