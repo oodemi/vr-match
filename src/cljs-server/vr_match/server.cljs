@@ -16,6 +16,7 @@
     [vr-match.route]))
 
 (def express (js/require "express"))
+(def compression (js/require "compression"))
 (def ^:export app (express))
 
 (def JssProvider (-> (js/require "react-jss/lib/JssProvider") .-default adapt-react-class))
@@ -158,6 +159,8 @@
     (serve port)))
 
 (doto app
+  (.use (compression))
+
   (.use "/sw.js" (.static express (str static-file-path "sw.js")))
   (.use "/manifest.json" (.static express (str static-file-path "manifest.json")))
   (.use "/favicon.ico" (.static express (str static-file-path "favicon.ico")))
