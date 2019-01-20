@@ -7,15 +7,18 @@
   #js {"card" #js {"width" "86vw"
                    "height" "74vh"
                    "position" "relative"}
-       "actionArea" #js {"height" "100%"
+       "actionArea" #js {"width" "86vw"
+                         "height" "100%"
                          "position" "relative"
                          "display" "flex"
                          "flexDirection" "column"}
        "media" #js {"objectFit" "cover"
-                    "width" "100%"
+                    "width" "86vw"
                     "height" 284
                     "flexGrow" 2}
-       "content" #js {"flexGrow" 1}})
+       "content" #js {"width" "100%"
+                      "box-sizing" "border-box"
+                      "flexGrow" 1}})
 
 (defn card-item-component
   [{:keys [classes
