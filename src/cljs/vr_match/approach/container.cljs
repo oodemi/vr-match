@@ -4,38 +4,54 @@
             [vr-match.util :as util]
             [re-frame.core :as re-frame]))
 
-;; TODO: re-frameとつなぎこんで消す
-(declare approach-state)
+(declare mock-approach-state)
 
 (defn handle-click-swipe []
-  (swap! approach-state #(update % :isSwiped not)))
+  (js/setTimeout
+    (fn []
+      (swap! mock-approach-state
+             #(update % :cardItems rest)))
+    300))
 
 (defn handle-click-favorite []
-  (swap! approach-state #(update % :isFavorited not)))
+  (js/setTimeout
+    (fn []
+      (swap! mock-approach-state
+             #(update % :cardItems rest)))
+    300))
 
-(def approach-state
-  (reagent/atom {:isSwiped false
-                 :isFavorited false
-                 :handleClickSkip handle-click-swipe
+(defn handle-did-mount
+  []
+  (js/setTimeout
+    (fn []
+      (swap! mock-approach-state
+             #(assoc % :cardItems
+                     [{:id 1
+                       :title "サンプル画像"
+                       :userName "一箱"
+                       :introduction "バーチャル清楚系女子高校生Webアプリケーションエンジニアおじさんです。こっそりプログラミングしてます。"
+                       :image "https://storage.googleapis.com/boxp-tmp/profile_sample.jpg"}
+                      {:id 2
+                       :title "サンプル画像"
+                       :userName "ヒマリ"
+                       :introduction "バーチャル清楚系女子高校生Webアプリケーションエンジニアおじさんです。こっそりプログラミングしてます。"
+                       :image "https://storage.googleapis.com/boxp-tmp/profile_sample.jpg"}
+                      {:id 3
+                       :title "サンプル画像"
+                       :userName "ニコ二立体ちゃん"
+                       :introduction "バーチャル清楚系女子高校生Webアプリケーションエンジニアおじさんです。こっそりプログラミングしてます。"
+                       :image "https://storage.googleapis.com/boxp-tmp/profile_sample.jpg"}])))
+    300))
+
+;; TODO: re-frameとつなぎこんで消す
+(def mock-approach-state
+  (reagent/atom {:handleClickSkip handle-click-swipe
                  :handleClickFavorite handle-click-favorite
-                 :cardItems [{:id 1
-                              :title "サンプル画像"
-                              :userName "一箱"
-                              :introduction "バーチャル清楚系女子高校生Webアプリケーションエンジニアおじさんです。こっそりプログラミングしてます。"
-                              :image "https://storage.googleapis.com/boxp-tmp/profile_sample.jpg"}
-                             {:id 2
-                              :title "サンプル画像"
-                              :userName "ヒマリ"
-                              :introduction "バーチャル清楚系女子高校生Webアプリケーションエンジニアおじさんです。こっそりプログラミングしてます。"
-                              :image "https://storage.googleapis.com/boxp-tmp/profile_sample.jpg"}
-                             {:id 3
-                              :title "サンプル画像"
-                              :userName "ニコ二立体ちゃん"
-                              :introduction "バーチャル清楚系女子高校生Webアプリケーションエンジニアおじさんです。こっそりプログラミングしてます。"
-                              :image "https://storage.googleapis.com/boxp-tmp/profile_sample.jpg"}]}))
+                 :handleDidMount handle-did-mount
+                 :cardItems []}))
 
 (defn approach
   [params]
-  [component/approach @approach-state])
+  [component/approach @mock-approach-state])
 
 (util/universal-set-loaded! :approach)

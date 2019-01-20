@@ -20,19 +20,22 @@
 (defn card-item-component
   [{:keys [classes
            item
-           isSwiped
-           isFavorited
-           restCard?]
+           isSwipe
+           isFavorite
+           restCard?
+           handleOnExit]
     :as props}]
   (let [{:keys [title
                 userName
                 introduction
                 image]}
         (js->clj item :keywordize-keys true)]
-    [mui/slide {:direction "right"
+    [mui/slide {:direction (cond isSwipe "right" isFavorite "left" :default "right")
                 :appear false
-                :in (or (not (or isSwiped isFavorited))
-                        restCard?)}
+                :timeout #js {"enter" 0 "exit" 300}
+                :in (or (not (or isSwipe isFavorite))
+                        restCard?)
+                :onExited handleOnExit}
      [mui/card {:class-name (.-card classes)
                 :style {"marginTop" (when restCard? "-74vh")
                         "zIndex" (if restCard? "1000" "1200")}

@@ -5,22 +5,34 @@
             [vr-match.approach.components.card-item :refer [card-item]]))
 
 (def cards-styles
-  #js {"root" #js {"height" "74vh"
-                   "width" "86vw"
-                   "position" "relative"}})
+  #js {"loading" #js {"height" "74vh"
+                      "width" "86vw"
+                      "position" "relative"}})
 
 (defn cards-component
   [{:keys [classes
-           items
-           isSwiped
-           isFavorited] :as props}]
-  [mui/grid {:item true}
-   (map-indexed (fn [idx item]
-                  ^{:key (.-id item)}
-                  [card-item {:item item
-                              :isSwiped isSwiped
-                              :isFavorited isFavorited
-                              :restCard? (not (= 0 idx))}]) items)])
+           firstItem
+           secondItem
+           isSwipe
+           isFavorite
+           handleOnExit] :as props}]
+  (if (or firstItem secondItem)
+    [mui/grid {:item true}
+     (if firstItem
+       ^{:key 0}
+       [card-item {:item firstItem
+                   :isSwipe isSwipe
+                   :isFavorite isFavorite
+                   :restCard? false
+                   :handleOnExit handleOnExit}])
+     (if secondItem
+       ^{:key 1}
+       [card-item {:item secondItem
+                   :isSwipe isSwipe
+                   :isFavorite isFavorite
+                   :restCard? true
+                   :handleOnExit handleOnExit}])]
+    [:div {:class-name (.-loading classes)}]))
 
 (def cards
   (r/adapt-react-class ((mui/with-styles cards-styles) (r/reactify-component cards-component))))
