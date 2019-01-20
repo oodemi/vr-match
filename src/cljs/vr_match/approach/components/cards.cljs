@@ -5,9 +5,9 @@
             [vr-match.approach.components.card-item :refer [card-item]]))
 
 (def cards-styles
-  #js {"loading" #js {"height" "74vh"
-                      "width" "86vw"
-                      "position" "relative"}})
+  #js {"root" #js {"height" "74vh"
+                   "width" "86vw"
+                   "position" "relative"}})
 
 (defn cards-component
   [{:keys [classes
@@ -17,7 +17,8 @@
            isFavorite
            handleOnExit] :as props}]
   (if (or firstItem secondItem)
-    [mui/grid {:item true}
+    [mui/grid {:item true
+               :class-name (.-root classes)}
      (if firstItem
        ^{:key 0}
        [card-item {:item firstItem
@@ -32,7 +33,9 @@
                    :isFavorite isFavorite
                    :restCard? true
                    :handleOnExit handleOnExit}])]
-    [:div {:class-name (.-loading classes)}]))
+    [mui/grid {:item true
+               :class-name (.-root classes)}
+     [:div]]))
 
 (def cards
   (r/adapt-react-class ((mui/with-styles cards-styles) (r/reactify-component cards-component))))
