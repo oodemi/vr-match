@@ -14,28 +14,6 @@
 (def approach-styles
   #js {"root" #js {"height" "100%"}})
 
-(declare onClickFavorite onClickSkip handleOnExit)
-
-(defn approach-component
-  [{:keys [classes
-           cardItems
-           handleClickSkip
-           handleClickFavorite] :as props}]
-  [mui/grid {:container true
-             :align-items "center"
-             :justify "space-around"
-             :direction "column"
-             :class-name (.-root classes)}
-   [mui/grid {:container true
-              :justify "center"}
-    [cards {:firstItem (-> @approach-state :firstItem)
-            :secondItem (-> @approach-state :secondItem)
-            :isFavorite (-> @approach-state :isFavorite)
-            :isSwipe (-> @approach-state :isSwipe)
-            :handleOnExit #(handleOnExit props)}]]
-   [action-buttons {:onClickSkip #(onClickSkip props)
-                    :onClickFavorite #(onClickFavorite props)}]])
-
 (defn- component-did-mount
   [this]
   (let [props (r/props this)]
@@ -79,9 +57,32 @@
               (assoc :firstItem (-> props :cardItems first))
               (assoc :secondItem (-> props :cardItems second)))))
 
+
+(def approach-component
+  (with-meta
+    (fn
+      [{:keys [classes
+               cardItems
+               handleClickSkip
+               handleClickFavorite] :as props}]
+      [mui/grid {:container true
+                 :align-items "center"
+                 :justify "space-around"
+                 :direction "column"
+                 :class-name (.-root classes)}
+       [mui/grid {:container true
+                  :justify "center"}
+        [cards {:firstItem (-> @approach-state :firstItem)
+                :secondItem (-> @approach-state :secondItem)
+                :isFavorite (-> @approach-state :isFavorite)
+                :isSwipe (-> @approach-state :isSwipe)
+                :handleOnExit #(handleOnExit props)}]]
+       [action-buttons {:onClickSkip #(onClickSkip props)
+                        :onClickFavorite #(onClickFavorite props)}]])
+    {:component-did-mount component-did-mount
+     :component-did-update component-did-update}))
+
 (def approach
   (r/adapt-react-class
     ((mui/with-styles approach-styles)
-     (r/reactify-component (with-meta approach-component
-                                      {:component-did-mount component-did-mount
-                                       :component-did-update component-did-update})))))
+     (r/reactify-component approach-component))))

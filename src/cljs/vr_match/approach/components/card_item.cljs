@@ -59,4 +59,3 @@
 
 (def card-item
   (r/adapt-react-class ((mui/with-styles card-item-styles) (r/reactify-component card-item-component))))
-
