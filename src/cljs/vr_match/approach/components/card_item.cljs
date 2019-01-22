@@ -18,7 +18,8 @@
                     "flexGrow" 2}
        "content" #js {"width" "100%"
                       "box-sizing" "border-box"
-                      "flexGrow" 1}})
+                      "flexGrow" 1}
+       "platformChips" #js {"marginBottom" "0.35em"}})
 
 (defn card-item-component
   [{:keys [classes
@@ -50,6 +51,22 @@
                         :image image
                         :title title}]
        [mui/card-content {:class-name (.-content classes)}
+        [mui/grid {:container true
+                   :justify "flex-start"
+                   :class-name (.-platformChips classes)
+                   :spacing 8}
+         [mui/grid {:key 0
+                    :item true}
+          [mui/chip {:label "VRChat"
+                     :color "primary"}]]
+         [mui/grid {:key 1
+                    :item true}
+          [mui/chip {:label "VRoidHub"
+                     :color "primary"}]]
+         [mui/grid {:key 2
+                    :item true}
+          [mui/chip {:label "VirtualCast"
+                     :color "primary"}]]]
         [mui/typo-graphy {:gutterBottom true
                           :variant "subheading"
                           :component "h2"}
