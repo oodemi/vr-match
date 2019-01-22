@@ -14,7 +14,7 @@
     "watch:dev:server:bundle": "nodemon target/server/js/compiled/server.js 8888 --watch target/server/js/compiled/server.js",
     "watch:dev:server:src": "lein cljsbuild auto server-dev",
     "build": "npm run build:prod",
-    "build:dev": "npm run build:dev:client && npm run build:server",
+    "build:dev": "npm run build:dev:client && npm run build:dev:server",
     "build:prod": "npm run build:prod:client && npm run build:prod:server",
     "build:dev:client": "lein cljsbuild once dev",
     "build:prod:client": "lein cljsbuild once prod && npm run workbox",
