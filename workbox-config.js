@@ -10,7 +10,7 @@ module.exports = {
   "runtimeCaching": [
       {
           "urlPattern": /\//,
-          "handler": "networkFirst",
+          "handler": "staleWhileRevalidate",
           "options": {
               "cacheableResponse": {
                   "statuses": [0, 200],
