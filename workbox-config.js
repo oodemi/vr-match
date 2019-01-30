@@ -9,18 +9,6 @@ module.exports = {
   "swDest": "resources/public/prod/sw.js",
   "runtimeCaching": [
       {
-          "urlPattern": /\//,
-          "handler": "staleWhileRevalidate",
-          "options": {
-              "cacheableResponse": {
-                  "statuses": [0, 200],
-                  "headers": {
-                      "Content-type": "text/html; charset=utf-8",
-                  },
-              },
-          },
-      },
-      {
           "urlPattern": /^https\:\/\/use\.fontawesome\.com\/releases\//,
           "handler": "cacheFirst",
           "options": {
