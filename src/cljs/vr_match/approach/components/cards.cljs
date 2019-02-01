@@ -35,7 +35,11 @@
                    :handleOnExit handleOnExit}])]
     [mui/grid {:item true
                :class-name (.-root classes)}
-     [:div]]))
+     [card-item {:item {}
+                 :isSwipe false
+                 :isFavorite false
+                 :restCard? false
+                 :handleOnExit #()}]]))
 
 (def cards
   (r/adapt-react-class ((mui/with-styles cards-styles) (r/reactify-component cards-component))))
