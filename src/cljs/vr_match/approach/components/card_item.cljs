@@ -1,7 +1,8 @@
 (ns vr-match.approach.components.card-item
   (:require [cljs.spec.alpha :as s]
             [reagent.core :as r]
-            [vr-match.lib.components.material-ui :as mui]))
+            [vr-match.lib.components.material-ui :as mui]
+            [vr-match.lib.components.plat-form-chip :refer [plat-form-chip]]))
 
 (defn card-item-component
   [{:keys [classes
@@ -51,8 +52,7 @@
                    :spacing 8}
          (map (fn [{:keys [id name]}] [mui/grid {:key id
                                                  :item true}
-                                       [mui/chip {:label name
-                                                  :color "primary"}]])
+                                       [plat-form-chip {:name name}]])
               platForms)]
         [mui/typo-graphy {:gutterBottom true
                           :variant "subheading"
