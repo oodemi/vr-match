@@ -15,7 +15,7 @@
             :depends-on #{:cljs-base}}})
 
 (defproject vr-match "0.1.0-SNAPSHOT"
-  :dependencies [[org.clojure/clojure "1.9.0"]
+  :dependencies [[org.clojure/clojure "1.10.0"]
                  [org.clojure/clojurescript "1.10.339"]
                  [reagent "0.8.1"]
                  [re-frame "0.10.6"]
@@ -29,18 +29,19 @@
 
   :min-lein-version "2.5.3"
 
-  :source-paths ["src/clj" "src/cljs"]
+  :source-paths ["src/clj" "src/cljs" "src/cljs-client" "src/cljs-server"]
 
   :clean-targets ^{:protect false} ["resources/public/js/compiled" "resources/public/prod/js/compiled" "target"]
 
   :figwheel {:css-dirs ["resources/public/css"]}
-
+  
   :profiles
   {:dev
-   {:dependencies [[binaryage/devtools "0.9.10"]]
-    :plugins      [[lein-figwheel "0.5.16"]
-                   [lein-cljfmt "0.6.2"]
-                   [figwheel-sidecar "0.5.4-6"]]}
+   {:dependencies [[binaryage/devtools "0.9.10"]
+                   [cider/piggieback "0.3.5"]
+                   [figwheel-sidecar "0.5.18"]]
+    :plugins      [[lein-figwheel "0.5.18"]
+                   [lein-cljfmt "0.6.2"]]}
    :prod { }
    }
 
