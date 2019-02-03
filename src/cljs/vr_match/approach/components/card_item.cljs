@@ -40,20 +40,31 @@
                 :in (or (not (or isSwipe isFavorite))
                         restCard?)
                 :onExited handleOnExit}
-     [mui/card {:class-name (.-card classes)
-                :style {"marginTop" (when restCard? "-74vh")
-                        "zIndex" (if restCard? "1000" "1200")}
+     [mui/card {:style {"marginTop" (when restCard? "-74vh")
+                        "zIndex" (if restCard? "1000" "1200")
+                        "width" "86vw"
+                        "height" "74vh"
+                        "position" "relative"}
                 :elevation (if restCard? 1 2)}
-      [mui/card-action-area {:class-name (.-actionArea classes)}
-       [mui/card-media {:class-name (.-media classes)
+      [mui/card-action-area {:style {"width" "86vw"
+                                     "height" "100%"
+                                     "position" "relative"
+                                     "display" "flex"
+                                     "flexDirection" "column"}}
+       [mui/card-media {:style {"objectFit" "cover"
+                                "width" "86vw"
+                                "height" 284
+                                "flexGrow" 2}
                         :component "div"
                         :alt title
                         :image image
                         :title title}]
-       [mui/card-content {:class-name (.-content classes)}
+       [mui/card-content {:style {"width" "100%"
+                                  "boxSizing" "border-box"
+                                  "flexGrow" 1}}
         [mui/grid {:container true
                    :justify "flex-start"
-                   :class-name (.-platformChips classes)
+                   :style {"marginBottom" "0.35em"}
                    :spacing 8}
          [mui/grid {:key 0
                     :item true}

@@ -57,7 +57,6 @@
               (assoc :firstItem (-> props :cardItems first))
               (assoc :secondItem (-> props :cardItems second)))))
 
-
 (def approach-component
   (with-meta
     (fn
@@ -84,5 +83,5 @@
 
 (def approach
   (r/adapt-react-class
-    ((mui/with-styles approach-styles)
-     (r/reactify-component approach-component))))
+   ((mui/with-styles approach-styles)
+    (r/reactify-component approach-component))))
