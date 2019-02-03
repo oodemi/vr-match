@@ -5,7 +5,7 @@
             [vr-match.approach.components.card-item :refer [card-item]]))
 
 (def cards-styles
-  #js {"root" #js {"height" "74vh"
+  #js {"root" #js {"height" "64vh"
                    "width" "86vw"
                    "position" "relative"}})
 

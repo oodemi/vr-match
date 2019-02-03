@@ -24,10 +24,10 @@
                 :in (or (not (or isSwipe isFavorite))
                         restCard?)
                 :onExited handleOnExit}
-     [mui/card {:style {"marginTop" (when restCard? "-74vh")
+     [mui/card {:style {"marginTop" (when restCard? "-64vh")
                         "zIndex" (if restCard? "1000" "1200")
                         "width" "86vw"
-                        "height" "74vh"
+                        "height" "64vh"
                         "position" "relative"}
                 :elevation (if restCard? 1 2)}
       [mui/card-action-area {:style {"width" "86vw"
