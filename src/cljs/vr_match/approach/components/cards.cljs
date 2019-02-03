@@ -35,12 +35,12 @@
                    :handleOnExit handleOnExit}])]
     [mui/grid {:item true
                :class-name (.-root classes)}
-     ^{:key 0} [card-item {:item {}
+     ^{:key 0} [card-item {:item {:image ""}
                            :isSwipe false
                            :isFavorite false
                            :restCard? false
                            :handleOnExit #()}]
-     ^{:key 1} [card-item {:item {}
+     ^{:key 1} [card-item {:item {:image ""}
                            :isSwipe false
                            :isFavorite false
                            :restCard? true
