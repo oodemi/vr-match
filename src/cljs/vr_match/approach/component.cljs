@@ -57,17 +57,18 @@
               (assoc :firstItem (-> props :cardItems first))
               (assoc :secondItem (-> props :cardItems second)))))
 
-(def approach
+(def approach-component
   (with-meta
     (fn
-      [{:keys [cardItems
+      [{:keys [classes
+               cardItems
                handleClickSkip
                handleClickFavorite] :as props}]
       [mui/grid {:container true
                  :align-items "center"
                  :justify "space-around"
                  :direction "column"
-                 :style {"height" "100%"}}
+                 :class-name (.-root classes)}
        [mui/grid {:container true
                   :justify "center"}
         [cards {:firstItem (-> @approach-state :firstItem)
@@ -79,3 +80,8 @@
                         :onClickFavorite #(onClickFavorite props)}]])
     {:component-did-mount component-did-mount
      :component-did-update component-did-update}))
+
+(def approach
+  (r/adapt-react-class
+   ((mui/with-styles approach-styles)
+    (r/reactify-component approach-component))))

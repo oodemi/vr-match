@@ -4,7 +4,7 @@
             [vr-match.lib.components.material-ui :as mui]
             [vr-match.lib.components.plat-form-chip :refer [plat-form-chip]]))
 
-(defn card-item
+(defn card-item-component
   [{:keys [classes
            item
            isSwipe
@@ -60,3 +60,5 @@
          userName]
         [mui/typo-graphy {:component "p"}
          introduction]]]]]))
+
+(def card-item card-item-component)
