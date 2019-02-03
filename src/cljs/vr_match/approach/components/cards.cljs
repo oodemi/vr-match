@@ -4,12 +4,7 @@
             [vr-match.lib.components.material-ui :as mui]
             [vr-match.approach.components.card-item :refer [card-item]]))
 
-(def cards-styles
-  #js {"root" #js {"height" "64vh"
-                   "width" "86vw"
-                   "position" "relative"}})
-
-(defn cards-component
+(defn cards
   [{:keys [classes
            firstItem
            secondItem
@@ -18,7 +13,9 @@
            handleOnExit] :as props}]
   (if (or firstItem secondItem)
     [mui/grid {:item true
-               :class-name (.-root classes)}
+               :style {"height" "64vh"
+                       "width" "86vw"
+                       "position" "relative"}}
      (if firstItem
        ^{:key 0}
        [card-item {:item firstItem
@@ -34,7 +31,9 @@
                    :restCard? true
                    :handleOnExit handleOnExit}])]
     [mui/grid {:item true
-               :class-name (.-root classes)}
+               :style {"height" "64vh"
+                       "width" "86vw"
+                       "position" "relative"}}
      ^{:key 0} [card-item {:item {:image ""}
                            :isSwipe false
                            :isFavorite false
@@ -45,6 +44,3 @@
                            :isFavorite false
                            :restCard? true
                            :handleOnExit #()}]]))
-
-(def cards
-  (r/adapt-react-class ((mui/with-styles cards-styles) (r/reactify-component cards-component))))

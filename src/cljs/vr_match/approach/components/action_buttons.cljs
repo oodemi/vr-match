@@ -3,12 +3,8 @@
             [reagent.core :as r]
             [vr-match.lib.components.material-ui :as mui]))
 
-(def action-buttons-styles
-  #js {"root" #js {}})
-
-(defn action-buttons-component
-  [{:keys [classes
-           onClickSkip
+(defn action-buttons
+  [{:keys [onClickSkip
            onClickFavorite] :as props}]
   [mui/grid {:container true
              :justify "space-around"}
@@ -21,6 +17,3 @@
                 :aria-label "すき"
                 :on-click onClickFavorite}
     [mui/icon "favorite"]]])
-
-(def action-buttons
-  (r/adapt-react-class ((mui/with-styles action-buttons-styles) (r/reactify-component action-buttons-component))))
