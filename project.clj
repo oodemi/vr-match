@@ -5,8 +5,8 @@
              :output-to (str output-dir "/example.js")
              :depends-on #{:client}}
    :approach {:entries #{"vr-match.approach.container"}
-             :output-to (str output-dir "/approach.js")
-             :depends-on #{:client}}
+              :output-to (str output-dir "/approach.js")
+              :depends-on #{:client}}
    ;; 分割されたモジュールをロードするために最低限必要なモジュール
    ;; モジュールの分割を行うと必ずこのモジュールが分割されるので出力先ファイル名だけ変更している
    :cljs-base {:output-to (str output-dir "/cljs_base.js")}
@@ -34,7 +34,7 @@
   :clean-targets ^{:protect false} ["resources/public/js/compiled" "resources/public/prod/js/compiled" "target"]
 
   :figwheel {:css-dirs ["resources/public/css"]}
-  
+
   :profiles
   {:dev
    {:dependencies [[binaryage/devtools "0.9.10"]
@@ -42,8 +42,7 @@
                    [figwheel-sidecar "0.5.18"]]
     :plugins      [[lein-figwheel "0.5.18"]
                    [lein-cljfmt "0.6.2"]]}
-   :prod { }
-   }
+   :prod {}}
 
   :cljsbuild
   {:builds
