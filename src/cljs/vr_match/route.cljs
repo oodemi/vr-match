@@ -14,7 +14,9 @@
              :module-name :example}
    :approach {:title "Approach"
               :container #(resolve 'vr-match.approach.container/approach)
-              :module-name :approach}})
+              :module-name :approach}
+   :profile {:title "Profile"
+             :container #(resolve 'vr-match.profile.container/profile)}})
 
 (defn- lazy-push
   [key params]
@@ -23,6 +25,9 @@
 ;; ルーティング定義
 (defroute root-path "/" []
   (lazy-push :approach {}))
+
+(defroute profile-path "/profile/:id" [id]
+  (lazy-push :profile {:id id}))
 
 (defroute not-found-path "*" []
   (lazy-push :example {}))
