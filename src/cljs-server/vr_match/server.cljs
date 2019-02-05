@@ -46,7 +46,7 @@
    [:head
     [:meta {:charset "utf-8"}]
     [:meta {:name "viewport"
-            :content "width=device-width,initial-scale=1"}]
+            :content "width=device-width,initial-scale=1,user-scalable=no"}]
     [:meta {:name "theme-color" :content "#00adb5"}]
     (when-not dev?
       [:link {:rel "manifest" :href "/manifest.json"}])
