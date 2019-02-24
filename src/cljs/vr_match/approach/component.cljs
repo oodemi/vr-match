@@ -48,9 +48,9 @@
 (defn- onClickFavorite
   [props]
   (swap! approach-state
-         #(-> % ;;(assoc :isFavorite true)
-              (assoc :isOpenMatchingDialog true)
-              (assoc :matchingPartner (-> @approach-state :firstItem))))
+         #(-> % (assoc :isFavorite true)
+                (assoc :isOpenMatchingDialog true)
+                (assoc :matchingPartner (-> @approach-state :firstItem))))
   ((:handleClickFavorite props)))
 
 (defn- handleOnExit
