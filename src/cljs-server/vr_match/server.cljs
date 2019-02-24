@@ -10,6 +10,7 @@
     [vr-match.example.container]
     [vr-match.approach.container]
     [vr-match.profile.container]
+    [vr-match.login.container]
     [vr-match.lib.component :as component]
     [vr-match.lib.components.material-ui :as mui]
     [vr-match.config :as config]

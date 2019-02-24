@@ -17,7 +17,10 @@
               :module-name :approach}
    :profile {:title "Profile"
              :container #(resolve 'vr-match.profile.container/profile)
-             :module-name :profile}})
+             :module-name :profile}
+   :login {:title "Login"
+           :container #(resolve 'vr-match.login.container/login)
+           :module-name :login}})
 
 (defn- lazy-push
   [key params]
@@ -29,6 +32,9 @@
 
 (defroute profile-path "/profile/:id" [id]
   (lazy-push :profile {:id id}))
+
+(defroute login-path "/login" []
+  (lazy-push :login {}))
 
 (defroute not-found-path "*" []
   (lazy-push :example {}))
