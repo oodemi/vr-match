@@ -16,11 +16,12 @@
               :container #(resolve 'vr-match.approach.container/approach)
               :module-name :approach}
    :profile {:title "Profile"
-             :container #(resolve 'vr-match.profile.container/profile)}})
+             :container #(resolve 'vr-match.profile.container/profile)
+             :module-name :profile}})
 
 (defn- lazy-push
   [key params]
-  (util/universal-load (-> route-table key :module-name) #(re-frame/dispatch-sync [::events/push key params])))
+  (util/universal-load (-> route-table key :module-name) #(re-frame/dispatch-sync [::events/universal-push key params])))
 
 ;; ルーティング定義
 (defroute root-path "/" []

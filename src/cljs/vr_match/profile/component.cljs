@@ -15,7 +15,7 @@
    [mui/grid {:container true
               :spacing 16}
     [mui/grid {:item true
-               :xs 16}
+               :xs 12}
      "プロフィール"]]])
 
 (def profile profile-component)

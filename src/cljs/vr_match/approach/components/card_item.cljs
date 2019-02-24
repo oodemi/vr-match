@@ -10,9 +10,11 @@
            isSwipe
            isFavorite
            restCard?
+           handleClickCard
            handleOnExit]
     :as props}]
-  (let [{:keys [title
+  (let [{:keys [id
+                title
                 userName
                 introduction
                 platForms
@@ -34,7 +36,8 @@
                                      "height" "100%"
                                      "position" "relative"
                                      "display" "flex"
-                                     "flexDirection" "column"}}
+                                     "flexDirection" "column"}
+                             :on-click #(handleClickCard id)}
        [mui/card-media {:style {"objectFit" "cover"
                                 "width" "86vw"
                                 "height" 284

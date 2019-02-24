@@ -15,6 +15,7 @@
            secondItem
            isSwipe
            isFavorite
+           handleClickCardItem
            handleOnExit] :as props}]
   (if (or firstItem secondItem)
     [mui/grid {:item true
@@ -25,6 +26,7 @@
                    :isSwipe isSwipe
                    :isFavorite isFavorite
                    :restCard? false
+                   :handleClickCard handleClickCardItem
                    :handleOnExit handleOnExit}])
      (if secondItem
        ^{:key 1}
@@ -32,6 +34,7 @@
                    :isSwipe isSwipe
                    :isFavorite isFavorite
                    :restCard? true
+                   :handleClickCard handleClickCardItem
                    :handleOnExit handleOnExit}])]
     [mui/grid {:item true
                :class-name (.-root classes)}
@@ -39,11 +42,13 @@
                            :isSwipe false
                            :isFavorite false
                            :restCard? false
+                           :handleClickCard #()
                            :handleOnExit #()}]
      ^{:key 1} [card-item {:item {:image ""}
                            :isSwipe false
                            :isFavorite false
                            :restCard? true
+                           :handleClickCard #()
                            :handleOnExit #()}]]))
 
 (def cards

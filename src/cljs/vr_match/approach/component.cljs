@@ -62,6 +62,7 @@
     (fn
       [{:keys [classes
                cardItems
+               handleClickCardItem
                handleClickSkip
                handleClickFavorite] :as props}]
       [mui/grid {:container true
@@ -75,6 +76,7 @@
                 :secondItem (-> @approach-state :secondItem)
                 :isFavorite (-> @approach-state :isFavorite)
                 :isSwipe (-> @approach-state :isSwipe)
+                :handleClickCardItem handleClickCardItem
                 :handleOnExit #(handleOnExit props)}]]
        [action-buttons {:onClickSkip #(onClickSkip props)
                         :onClickFavorite #(onClickFavorite props)}]])

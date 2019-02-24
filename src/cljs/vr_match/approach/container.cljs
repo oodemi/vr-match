@@ -2,11 +2,12 @@
   (:require [reagent.core :as reagent]
             [vr-match.approach.component :as component]
             [vr-match.util :as util]
+            [vr-match.events :as events]
             [re-frame.core :as re-frame]))
 
 (declare mock-approach-state)
 
-(defn handle-click-swipe []
+(defn handle-click-skip []
   (js/setTimeout
    (fn []
      (swap! mock-approach-state
@@ -46,15 +47,19 @@
                       :image "https://storage.googleapis.com/boxp-tmp/profile_sample_3.jpg"}])))
    300))
 
+(defn handle-click-card-item
+  [id]
+  (re-frame/dispatch [::events/push (str "/profile/" id)]))
+
 ;; TODO: re-frameとつなぎこんで消す
 (def mock-approach-state
-  (reagent/atom {:handleClickSkip handle-click-swipe
-                 :handleClickFavorite handle-click-favorite
-                 :handleDidMount handle-did-mount
-                 :cardItems []}))
+  (reagent/atom {:cardItems []}))
 
 (defn approach
   [params]
-  [component/approach @mock-approach-state])
+  [component/approach (merge @mock-approach-state {:handleClickSkip handle-click-skip
+                                                   :handleClickFavorite handle-click-favorite
+                                                   :handleClickCardItem handle-click-card-item
+                                                   :handleDidMount handle-did-mount})])
 
 (util/universal-set-loaded! :approach)

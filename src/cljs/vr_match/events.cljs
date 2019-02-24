@@ -13,11 +13,16 @@
      (if history (assoc-in $ [:db :history] history) $))))
 
 (re-frame/reg-event-db
- ::push
+ ::universal-push
  (fn [db [_ key params]]
    (-> db
        (assoc-in [:router :key] key)
        (assoc-in [:router :params] params))))
+
+(re-frame/reg-event-fx
+ ::push
+ (fn [_ [_ path]]
+   {::effects/route [path]}))
 
 (re-frame/reg-event-fx
  ::api-error
