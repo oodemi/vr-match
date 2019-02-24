@@ -22,6 +22,7 @@
 (def button (r/adapt-react-class js/MaterialUI.Button))
 (def slide (r/adapt-react-class js/MaterialUI.Slide))
 (def chip (r/adapt-react-class js/MaterialUI.Chip))
+(def divider (r/adapt-react-class js/MaterialUI.Divider))
 
 ;; material-ui/styles
 (def with-styles (.-withStyles js/MaterialUIStyles))

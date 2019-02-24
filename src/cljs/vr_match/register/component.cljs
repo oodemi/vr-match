@@ -1,13 +1,12 @@
-(ns vr-match.login.component
+(ns vr-match.register.component
   (:require [cljs.spec.alpha :as s]
             [reagent.core :as r]
             [clojure.string :as string]
             [vr-match.lib.components.material-ui :as mui]
             [vr-match.lib.components.plat-form-chip :refer [plat-form-chip]]))
 
-(defn login
-  [{:keys [handleClickTwitter
-           handleClickRegister] :as props}]
+(defn register
+  [{:keys [handleClickTwitter] :as props}]
   [mui/grid {:style {:height "100%"
                      :width "100%"}
              :container true
@@ -25,19 +24,4 @@
               :alignItems "center"}
     [mui/button {:variant "contained"
                  :on-click handleClickTwitter}
-     "Login with Twitter"]]
-   [mui/divider {:style {:margin-top 24
-                         :width "100%"}
-                 :variant "middle"}]
-   [mui/grid {:style {:margin-top 24}
-              :container true
-              :direction "row"
-              :justify "center"
-              :align-items "center"}
-    [mui/typo-graphy {:component "p1"
-                      :variant "caption"}
-     "or"]
-    [mui/button {:color "primary"
-                 :on-click handleClickRegister}
-     "register"]]])
-
+     "Register with Twitter"]]])
