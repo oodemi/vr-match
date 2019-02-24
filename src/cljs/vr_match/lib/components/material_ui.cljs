@@ -23,6 +23,12 @@
 (def slide (r/adapt-react-class js/MaterialUI.Slide))
 (def chip (r/adapt-react-class js/MaterialUI.Chip))
 (def divider (r/adapt-react-class js/MaterialUI.Divider))
+(def avatar (r/adapt-react-class js/MaterialUI.Avatar))
+(def dialog (r/adapt-react-class js/MaterialUI.Dialog))
+(def dialog-title (r/adapt-react-class js/MaterialUI.DialogTitle))
+(def dialog-content (r/adapt-react-class js/MaterialUI.DialogContent))
+(def dialog-content-text (r/adapt-react-class js/MaterialUI.DialogContentText))
+(def dialog-actions (r/adapt-react-class js/MaterialUI.DialogActions))
 
 ;; material-ui/styles
 (def with-styles (.-withStyles js/MaterialUIStyles))

@@ -26,28 +26,35 @@
   (js/setTimeout
    (fn []
      (swap! mock-approach-state
-            #(assoc % :cardItems
-                    [{:id 1
-                      :title "サンプル画像"
-                      :userName "一箱"
-                      :introduction "バーチャル清楚系女子高校生Webアプリケーションエンジニアおじさんです。こっそりプログラミングしてます。"
-                      :platForms [{:id 1 :name "VRChat"} {:id 2 :name "VRoidHub"} {:id 3 :name "VirtualCast"}]
-                      :image "https://storage.googleapis.com/boxp-tmp/profile_sample.jpg"}
-                     {:id 2
-                      :title "サンプル画像"
-                      :userName "ヒマリ"
-                      :introduction "一箱さんちのヒマリです！"
-                      :platForms [{:id 1 :name "VRChat"} {:id 3 :name "VirtualCast"}]
-                      :image "https://storage.googleapis.com/boxp-tmp/profile_sample_2.jpg"}
-                     {:id 3
-                      :title "サンプル画像"
-                      :userName "アリシア・ソリッド"
-                      :introduction "ニコニ立体で公式キャラクターやってます。よろしくお願いします！"
-                      :platForms [{:id 3 :name "VirtualCast"}]
-                      :image "https://storage.googleapis.com/boxp-tmp/profile_sample_3.jpg"}])))
+            #(-> %
+                 (assoc :cardItems
+                        [{:id 1
+                          :title "サンプル画像"
+                          :userName "一箱"
+                          :introduction "バーチャル清楚系女子高校生Webアプリケーションエンジニアおじさんです。こっそりプログラミングしてます。"
+                          :platForms [{:id 1 :name "VRChat"} {:id 2 :name "VRoidHub"} {:id 3 :name "VirtualCast"}]
+                          :image "https://storage.googleapis.com/boxp-tmp/profile_sample.jpg"}
+                         {:id 2
+                          :title "サンプル画像"
+                          :userName "ヒマリ"
+                          :introduction "一箱さんちのヒマリです！"
+                          :platForms [{:id 1 :name "VRChat"} {:id 3 :name "VirtualCast"}]
+                          :image "https://storage.googleapis.com/boxp-tmp/profile_sample_2.jpg"}
+                         {:id 3
+                          :title "サンプル画像"
+                          :userName "アリシア・ソリッド"
+                          :introduction "ニコニ立体で公式キャラクターやってます。よろしくお願いします！"
+                          :platForms [{:id 3 :name "VirtualCast"}]
+                          :image "https://storage.googleapis.com/boxp-tmp/profile_sample_3.jpg"}])
+                 (assoc :me {:id 1
+                             :title "サンプル画像"
+                             :userName "一箱"
+                             :introduction "バーチャル清楚系女子高校生Webアプリケーションエンジニアおじさんです。こっそりプログラミングしてます。"
+                             :platForms [{:id 1 :name "VRChat"} {:id 2 :name "VRoidHub"} {:id 3 :name "VirtualCast"}]
+                             :image "https://storage.googleapis.com/boxp-tmp/profile_sample.jpg"}))))
    300))
 
-(defn handle-click-card-item
+(defn handle-click-go-to-profile
   [id]
   (re-frame/dispatch [::events/push (str "/profile/" id)]))
 
@@ -59,7 +66,7 @@
   [params]
   [component/approach (merge @mock-approach-state {:handleClickSkip handle-click-skip
                                                    :handleClickFavorite handle-click-favorite
-                                                   :handleClickCardItem handle-click-card-item
+                                                   :handleClickGoToProfile handle-click-go-to-profile
                                                    :handleDidMount handle-did-mount})])
 
 (util/universal-set-loaded! :approach)

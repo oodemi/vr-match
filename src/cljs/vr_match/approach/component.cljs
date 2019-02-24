@@ -3,13 +3,16 @@
             [reagent.core :as r]
             [vr-match.lib.components.material-ui :as mui]
             [vr-match.approach.components.cards :refer [cards]]
-            [vr-match.approach.components.action-buttons :refer [action-buttons]]))
+            [vr-match.approach.components.action-buttons :refer [action-buttons]]
+            [vr-match.approach.components.matching-dialog :refer [matching-dialog]]))
 
 (def approach-state
   (r/atom {:firstCard nil
            :secondCard nil
+           :matchingPartner nil
            :isSwipe false
-           :isFavorite false}))
+           :isFavorite false
+           :isOpenMatchingDialog false}))
 
 (def approach-styles
   #js {"root" #js {"height" "100%"}})
@@ -45,7 +48,9 @@
 (defn- onClickFavorite
   [props]
   (swap! approach-state
-         #(-> % (assoc :isFavorite true)))
+         #(-> % ;;(assoc :isFavorite true)
+              (assoc :isOpenMatchingDialog true)
+              (assoc :matchingPartner (-> @approach-state :firstItem))))
   ((:handleClickFavorite props)))
 
 (defn- handleOnExit
@@ -57,14 +62,19 @@
               (assoc :firstItem (-> props :cardItems first))
               (assoc :secondItem (-> props :cardItems second)))))
 
+(defn- handleCloseMatchingDialog []
+  (swap! approach-state
+         #(-> % (assoc :isOpenMatchingDialog false))))
+
 (def approach-component
   (with-meta
     (fn
-      [{:keys [classes
+      [{:keys [me
+               classes
                cardItems
-               handleClickCardItem
                handleClickSkip
-               handleClickFavorite] :as props}]
+               handleClickFavorite
+               handleClickGoToProfile] :as props}]
       [mui/grid {:container true
                  :align-items "center"
                  :justify "space-around"
@@ -76,10 +86,16 @@
                 :secondItem (-> @approach-state :secondItem)
                 :isFavorite (-> @approach-state :isFavorite)
                 :isSwipe (-> @approach-state :isSwipe)
-                :handleClickCardItem handleClickCardItem
+                :handleClickCardItem handleClickGoToProfile
                 :handleOnExit #(handleOnExit props)}]]
        [action-buttons {:onClickSkip #(onClickSkip props)
-                        :onClickFavorite #(onClickFavorite props)}]])
+                        :onClickFavorite #(onClickFavorite props)}]
+       [matching-dialog {:isOpen (:isOpenMatchingDialog @approach-state)
+                         ;; TODO: meのつなぎこみ
+                         :me (js->clj me :keywordize-keys true)
+                         :partner (-> @approach-state :matchingPartner (js->clj :keywordize-keys true))
+                         :handleClickGoToProfile #(handleClickGoToProfile %)
+                         :handleClickBack handleCloseMatchingDialog}]])
     {:component-did-mount component-did-mount
      :component-did-update component-did-update}))
 
