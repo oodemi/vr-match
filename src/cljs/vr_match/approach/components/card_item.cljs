@@ -61,7 +61,8 @@
                           :variant "subheading"
                           :component "h2"}
          userName]
-        [mui/typo-graphy {:component "p"}
+        [mui/typo-graphy {:noWrap true
+                          :style {:width "72vw"}}
          introduction]]]]]))
 
 (def card-item card-item-component)
