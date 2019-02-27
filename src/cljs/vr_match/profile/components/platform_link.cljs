@@ -5,6 +5,7 @@
   [{:keys [name link] :as platform}]
   [mui/button {:variant "contained"
                :color "primary"
+               :size "small"
                :href link}
    [mui/icon {:style {:margin-right 8}} "link"]
    name])
