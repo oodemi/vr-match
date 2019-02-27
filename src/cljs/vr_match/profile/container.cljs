@@ -7,8 +7,9 @@
                             :title "サンプル画像"
                             :userName "一箱"
                             :introduction "バーチャル清楚系女子高校生Webアプリケーションエンジニアおじさんです。こっそりプログラミングしてます。"
-                            :platForms [{:id 1 :name "VRChat"} {:id 2 :name "VRoidHub"} {:id 3 :name "VirtualCast"}]
-                            :image "https://storage.googleapis.com/boxp-tmp/profile_sample.jpg"}))
+                            :platForms [{:id 1 :name "VRChat" :link "https://vrchat.net/home/user/usr_3b6403c3-be9f-432c-ab1f-446778946421"} {:id 2 :name "YouTube" :link "https://www.youtube.com/user/BOXPKETARO/about"} {:id 3 :name "VirtualCast" :link ""}]
+                            :image "https://storage.googleapis.com/boxp-tmp/profile_sample.jpg"
+                            :isMatched true}))
 
 (defn profile
   [params]
