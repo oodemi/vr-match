@@ -62,6 +62,12 @@
               (assoc :firstItem (-> props :cardItems first))
               (assoc :secondItem (-> props :cardItems second)))))
 
+(defn- handleClickGoToProfile
+  [props id]
+  (swap! approach-state
+         #(-> % (assoc :isOpenMatchingDialog false)))
+  ((:handleClickGoToProfile props) id))
+
 (defn- handleCloseMatchingDialog []
   (swap! approach-state
          #(-> % (assoc :isOpenMatchingDialog false))))
@@ -73,8 +79,7 @@
                classes
                cardItems
                handleClickSkip
-               handleClickFavorite
-               handleClickGoToProfile] :as props}]
+               handleClickFavorite] :as props}]
       [mui/grid {:container true
                  :align-items "center"
                  :justify "space-around"
@@ -86,7 +91,7 @@
                 :secondItem (-> @approach-state :secondItem)
                 :isFavorite (-> @approach-state :isFavorite)
                 :isSwipe (-> @approach-state :isSwipe)
-                :handleClickCardItem handleClickGoToProfile
+                :handleClickCardItem #(handleClickGoToProfile props %)
                 :handleOnExit #(handleOnExit props)}]]
        [action-buttons {:onClickSkip #(onClickSkip props)
                         :onClickFavorite #(onClickFavorite props)}]
@@ -94,7 +99,7 @@
                          ;; TODO: meのつなぎこみ
                          :me (js->clj me :keywordize-keys true)
                          :partner (-> @approach-state :matchingPartner (js->clj :keywordize-keys true))
-                         :handleClickGoToProfile #(handleClickGoToProfile %)
+                         :handleClickGoToProfile #(handleClickGoToProfile props %)
                          :handleClickBack handleCloseMatchingDialog}]])
     {:component-did-mount component-did-mount
      :component-did-update component-did-update}))

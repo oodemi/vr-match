@@ -11,28 +11,45 @@
                :open isOpen
                :on-close #(println "close")
                :aria-labelledby "matching-dialog"}
+   [mui/dialog-title {:variant "h1"
+                      :component "h2"
+                      :style {:margin-top "56px"
+                              :text-align "center"}}
+    "お相手とマッチングしました！"]
    [mui/dialog-content
     [mui/grid {:container true
                :direction "column"
                :justify "center"
-               :align-items "center"}
+               :align-items "center"
+               :style {:margin-top "168"}}
      [mui/grid {:container true
                 :direction "row"
                 :justify "center"
                 :align-items "center"}
       [mui/grid {:item true}
-       [mui/avatar {:alt (:userName me)
-                    :src (:image me)}]]
+       [mui/slide {:direction "right"
+                   :in isOpen}
+        [mui/avatar {:alt (:userName me)
+                     :src (:image me)
+                     :style {:width 112
+                             :height 112}}]]]
       [mui/grid {:item true}
-       [mui/avatar {:alt (:userName partner)
-                    :src (:image partner)}]]]
-     [mui/grid {:container true
-                :direction "column"
-                :justify "center"
-                :align-items "center"}
+       [mui/fade {:in isOpen}
+        [mui/icon {:style {:margin "0 16px"}
+                   :color "primary"}
+         "favorite"]]]
       [mui/grid {:item true}
-       [mui/button {:color "primary"
-                    :on-click #(handleClickGoToProfile (:id partner))}
-        "相手のプロフィールを見る"]
-       [mui/button {:on-click handleClickBack}
-        "戻る"]]]]]])
+       [mui/slide {:direction "left"
+                   :in isOpen}
+        [mui/avatar {:alt (:userName partner)
+                     :src (:image partner)
+                     :style {:width 112
+                             :height 112}}]]]]]]
+   [mui/dialog-actions
+    [mui/button {:color "primary"
+                 :size "large"
+                 :on-click #(handleClickGoToProfile (:id partner))}
+     "相手のプロフィールを見る"]
+    [mui/button {:on-click handleClickBack
+                 :size "large"}
+     "戻る"]]])
