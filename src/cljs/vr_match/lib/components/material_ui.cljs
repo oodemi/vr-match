@@ -31,6 +31,8 @@
 (def dialog-content (r/adapt-react-class js/MaterialUI.DialogContent))
 (def dialog-content-text (r/adapt-react-class js/MaterialUI.DialogContentText))
 (def dialog-actions (r/adapt-react-class js/MaterialUI.DialogActions))
+(def form-control (r/adapt-react-class js/MaterialUI.FormControl))
+(def text-field (r/adapt-react-class js/MaterialUI.TextField))
 
 ;; material-ui/styles
 (def with-styles (.-withStyles js/MaterialUIStyles))

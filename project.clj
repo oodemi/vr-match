@@ -16,6 +16,9 @@
    :register {:entries #{"vr-match.register.container"}
               :output-to (str output-dir "/register.js")
               :depends-on #{:client}}
+   :wizard {:entries #{"vr-match.wizard.container"}
+            :output-to (str output-dir "/wizard.js")
+            :depends-on #{:client}}
    ;; 分割されたモジュールをロードするために最低限必要なモジュール
    ;; モジュールの分割を行うと必ずこのモジュールが分割されるので出力先ファイル名だけ変更している
    :cljs-base {:output-to (str output-dir "/cljs_base.js")}

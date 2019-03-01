@@ -21,9 +21,12 @@
    :login {:title "Login"
            :container #(resolve 'vr-match.login.container/login)
            :module-name :login}
-:register {:title "Register"
-        :container #(resolve 'vr-match.register.container/register)
-        :module-name :register}})
+   :register {:title "Register"
+              :container #(resolve 'vr-match.register.container/register)
+              :module-name :register}
+   :wizard {:title "Wizard"
+            :container #(resolve 'vr-match.wizard.container/wizard)
+            :module-name :wizard}})
 
 (defn- lazy-push
   [key params]
@@ -41,6 +44,9 @@
 
 (defroute register-path "/register" []
   (lazy-push :register {}))
+
+(defroute wizard-path "/wizard" []
+  (lazy-push :wizard {}))
 
 (defroute not-found-path "*" []
   (lazy-push :example {}))
