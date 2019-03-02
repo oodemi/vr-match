@@ -40,16 +40,21 @@
 (defn- loading []
   [:span "loading..."])
 
+(defn navigation-bar-layout
+  [{:keys [title] :as props} children]
+  [mui/grid {:container true
+             :align-items "center"
+             :justify "center"
+             :direction "column"}
+   [mui/grid {:item true
+              :style {:width "100%"}}
+    [header {:title title}]]
+   [mui/grid {:item true
+              :style {:height "calc(100% - 56px)"
+                      :width "100%"}}
+    children]])
+
 (defn app []
   (let [router (re-frame/subscribe [::vr-match.subs/router])]
-    [mui/grid {:container true
-               :align-items "center"
-               :justify "center"
-               :direction "column"}
-     [mui/grid {:item true
-                :style {:width "100%"}}
-      [header {:title (-> @router :key route/route-table :title)}]]
-     [mui/grid {:item true
-                :style {:height "calc(100% - 56px)"}}
-      [(or (some-> @router :key route/route-table :container .call) loading)
-       (-> @router :params)]]]))
+    [(or (some-> @router :key route/route-table :container .call) loading)
+     (-> @router :params)]))

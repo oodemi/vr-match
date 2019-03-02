@@ -2,6 +2,7 @@
   (:require [cljs.spec.alpha :as s]
             [reagent.core :as r]
             [clojure.string :as string]
+            [vr-match.lib.component :refer [navigation-bar-layout]]
             [vr-match.lib.components.material-ui :as mui]
             [vr-match.lib.components.plat-form-chip :refer [plat-form-chip]]))
 

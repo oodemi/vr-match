@@ -2,6 +2,7 @@
   (:require [cljs.spec.alpha :as s]
             [reagent.core :as r]
             [vr-match.lib.components.material-ui :as mui]
+            [vr-match.lib.component :refer [navigation-bar-layout]]
             [vr-match.approach.components.cards :refer [cards]]
             [vr-match.approach.components.action-buttons :refer [action-buttons]]
             [vr-match.approach.components.matching-dialog :refer [matching-dialog]]))
@@ -80,27 +81,28 @@
                cardItems
                handleClickSkip
                handleClickFavorite] :as props}]
-      [mui/grid {:container true
-                 :align-items "center"
-                 :justify "space-around"
-                 :direction "column"
-                 :class-name (.-root classes)}
+      [navigation-bar-layout {:title "Approach"}
        [mui/grid {:container true
-                  :justify "center"}
-        [cards {:firstItem (-> @approach-state :firstItem)
-                :secondItem (-> @approach-state :secondItem)
-                :isFavorite (-> @approach-state :isFavorite)
-                :isSwipe (-> @approach-state :isSwipe)
-                :handleClickCardItem #(handleClickGoToProfile props %)
-                :handleOnExit #(handleOnExit props)}]]
-       [action-buttons {:onClickSkip #(onClickSkip props)
-                        :onClickFavorite #(onClickFavorite props)}]
-       [matching-dialog {:isOpen (:isOpenMatchingDialog @approach-state)
-                         ;; TODO: meのつなぎこみ
-                         :me (js->clj me :keywordize-keys true)
-                         :partner (-> @approach-state :matchingPartner (js->clj :keywordize-keys true))
-                         :handleClickGoToProfile #(handleClickGoToProfile props %)
-                         :handleClickBack handleCloseMatchingDialog}]])
+                  :align-items "center"
+                  :justify "space-around"
+                  :direction "column"
+                  :class-name (.-root classes)}
+        [mui/grid {:container true
+                   :justify "center"}
+         [cards {:firstItem (-> @approach-state :firstItem)
+                 :secondItem (-> @approach-state :secondItem)
+                 :isFavorite (-> @approach-state :isFavorite)
+                 :isSwipe (-> @approach-state :isSwipe)
+                 :handleClickCardItem #(handleClickGoToProfile props %)
+                 :handleOnExit #(handleOnExit props)}]]
+        [action-buttons {:onClickSkip #(onClickSkip props)
+                         :onClickFavorite #(onClickFavorite props)}]
+        [matching-dialog {:isOpen (:isOpenMatchingDialog @approach-state)
+                          ;; TODO: meのつなぎこみ
+                          :me (js->clj me :keywordize-keys true)
+                          :partner (-> @approach-state :matchingPartner (js->clj :keywordize-keys true))
+                          :handleClickGoToProfile #(handleClickGoToProfile props %)
+                          :handleClickBack handleCloseMatchingDialog}]]])
     {:component-did-mount component-did-mount
      :component-did-update component-did-update}))
 

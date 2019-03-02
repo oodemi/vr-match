@@ -9,23 +9,17 @@
 (secretary/set-config! :prefix "/")
 
 (def route-table
-  {:example {:title "サンプルページ"
-             :container #(resolve 'vr-match.example.container/box)
+  {:example {:container #(resolve 'vr-match.example.container/box)
              :module-name :example}
-   :approach {:title "Approach"
-              :container #(resolve 'vr-match.approach.container/approach)
+   :approach {:container #(resolve 'vr-match.approach.container/approach)
               :module-name :approach}
-   :profile {:title "Profile"
-             :container #(resolve 'vr-match.profile.container/profile)
+   :profile {:container #(resolve 'vr-match.profile.container/profile)
              :module-name :profile}
-   :login {:title "Login"
-           :container #(resolve 'vr-match.login.container/login)
+   :login {:container #(resolve 'vr-match.login.container/login)
            :module-name :login}
-   :register {:title "Register"
-              :container #(resolve 'vr-match.register.container/register)
+   :register {:container #(resolve 'vr-match.register.container/register)
               :module-name :register}
-   :wizard {:title "Wizard"
-            :container #(resolve 'vr-match.wizard.container/wizard)
+   :wizard {:container #(resolve 'vr-match.wizard.container/wizard)
             :module-name :wizard}})
 
 (defn- lazy-push
