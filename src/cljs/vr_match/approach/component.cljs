@@ -24,7 +24,8 @@
     (swap! approach-state
            #(-> %
                 (assoc :firstItem (-> props :cardItems first))
-                (assoc :secondItem (-> props :cardItems second))))
+                (assoc :secondItem (-> props :cardItems second))
+                (assoc :isOpenMatchingDialog false)))
     (when (= (-> props :cardItems count) 0)
       ((:handleDidMount props)))))
 
@@ -65,8 +66,6 @@
 
 (defn- handleClickGoToProfile
   [props id]
-  (swap! approach-state
-         #(-> % (assoc :isOpenMatchingDialog false)))
   ((:handleClickGoToProfile props) id))
 
 (defn- handleCloseMatchingDialog []
