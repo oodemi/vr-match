@@ -5,7 +5,7 @@
             [vr-match.events :as events]
             [vr-match.util :as util]))
 
-(def register-state (r/atom {}))
+(def register-state (r/atom {:backgroundImage "https://storage.googleapis.com/boxp-tmp/profile_sample_2.jpg"}))
 
 (defn- handle-click-twitter []
   (re-frame/dispatch [::events/push "/wizard"]))

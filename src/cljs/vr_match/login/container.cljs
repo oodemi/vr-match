@@ -6,7 +6,7 @@
           [vr-match.events :as events]))
 
 ;; TODO: re-frameつなぎ込み
-(def login-state (r/atom {}))
+(def login-state (r/atom {:backgroundImage "https://storage.googleapis.com/boxp-tmp/profile_sample.jpg"}))
 
 (defn handle-click-twitter []
   (re-frame/dispatch [::events/push "/approach"]))
