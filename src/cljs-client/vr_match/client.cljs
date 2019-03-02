@@ -1,5 +1,6 @@
 (ns vr-match.client
   (:require
+   [react-dom]
    [cljs.loader :as loader]
    [cljs.reader :as reader]
    [pushy.core :as pushy]
@@ -64,7 +65,7 @@
 
 (defn ^:export mount-root []
   (re-frame/clear-subscription-cache!)
-  (reagent/render [index]
+  (react-dom/hydrate (reagent/as-element [index])
                   (.getElementById js/document "app")))
 
 (defn- preload-state []
