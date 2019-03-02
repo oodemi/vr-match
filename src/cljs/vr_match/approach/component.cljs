@@ -80,7 +80,7 @@
                cardItems
                handleClickSkip
                handleClickFavorite] :as props}]
-      [navigation-bar-layout {:title "Approach"}
+      [navigation-bar-layout {:title "アバターをさがす"}
        [mui/grid {:container true
                   :align-items "center"
                   :justify "space-around"
