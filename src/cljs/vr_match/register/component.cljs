@@ -29,7 +29,7 @@
    [mui/typo-graphy {:component "h1"
                      :gutterBottom true
                      :variant "display3"}
-    "VR Match"]
+    "Hito Hub"]
    [mui/grid {:style {:margin-top 208}
               :container true
               :direction "column"
