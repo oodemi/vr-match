@@ -26,7 +26,7 @@
         handle-click-next (fn [] (handleClickNext @draft-nickname))]
     (fn []
       [wizard-step {:title [:<>
-                            "あなたのニックネームを"
+                            "ニックネームを"
                             [:br]
                             "教えてください"]
                     :form [nickname-form {:isDuplicatedNickName false
