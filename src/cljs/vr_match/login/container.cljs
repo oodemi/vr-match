@@ -9,7 +9,7 @@
 (def login-state (r/atom {}))
 
 (defn handle-click-twitter []
-  (re-frame/dispatch [::events/push "/"]))
+  (re-frame/dispatch [::events/push "/approach"]))
 
 (defn handle-click-register []
   (re-frame/dispatch [::events/push "/register"]))

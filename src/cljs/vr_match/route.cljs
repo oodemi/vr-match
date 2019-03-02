@@ -34,16 +34,16 @@
 
 ;; ルーティング定義
 (defroute root-path "/" []
-  (lazy-push :approach {}))
+  (lazy-push :login {}))
 
 (defroute profile-path "/profile/:id" [id]
   (lazy-push :profile {:id id}))
 
-(defroute login-path "/login" []
-  (lazy-push :login {}))
-
 (defroute register-path "/register" []
   (lazy-push :register {}))
+
+(defroute approach-path "/approach" []
+  (lazy-push :approach {}))
 
 (defroute wizard-path "/wizard" []
   (lazy-push :wizard {}))

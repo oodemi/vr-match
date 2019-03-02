@@ -1,7 +1,9 @@
 (ns vr-match.wizard.container
   (:require
    [reagent.core :as reagent]
+   [re-frame.core :as re-frame]
    [vr-match.util :as util]
+   [vr-match.events :as events]
    [vr-match.wizard.component :as component]))
 
 ;; TODO: re-frameとつなぎこんで消す
@@ -15,10 +17,12 @@
 
 (defn- handle-next-nickname-step
   [nickname]
-  (println nickname))
+  (println nickname)
+  (re-frame/dispatch [::events/push "/approach"]))
 
 (defn- handle-click-skip []
-  (println "Skip!"))
+  (println "Skip!")
+  (re-frame/dispatch [::events/push "/approach"]))
 
 (defn wizard
   [params]
