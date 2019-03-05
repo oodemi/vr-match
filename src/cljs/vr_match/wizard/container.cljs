@@ -11,13 +11,21 @@
   (reagent/atom {:me {:id 1
                       :userName "一箱"
                       :introduction "バーチャル清楚系女子高校生Webアプリケーションエンジニアおじさんです。こっそりプログラミングしてます。"
-                      :platForms [{:id 1 :name "VRChat"} {:id 2 :name "VRoidHub"} {:id 3 :name "VirtualCast"}]
+                      :platForms []
                       :image "https://storage.googleapis.com/boxp-tmp/profile_sample.jpg"}
+                 :platformChoices [{:id 1 :name "VRChat"} {:id 2 :name "VRoidHub"} {:id 3 :name "VirtualCast"}]
                  :step :nickname}))
 
 (defn- handle-next-nickname-step
   [nickname]
   (println nickname)
+  (swap! mock-wizard-state
+         (fn [state]
+           (assoc state :step :platform))))
+
+(defn- handle-next-platform-step
+  [platforms]
+  (println platforms)
   (re-frame/dispatch [::events/push "/approach"]))
 
 (defn- handle-click-skip []
@@ -28,6 +36,7 @@
   [params]
   [component/wizard (merge @mock-wizard-state
                            {:handleNextNicknameStep handle-next-nickname-step
+                            :handleNextPlatformStep handle-next-platform-step
                             :handleClickSkip handle-click-skip})])
 
 (util/universal-set-loaded! :wizard)

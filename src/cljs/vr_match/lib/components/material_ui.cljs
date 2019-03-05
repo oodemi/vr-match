@@ -19,6 +19,7 @@
 (def card-actions (r/adapt-react-class js/MaterialUI.CardActions))
 (def card-media (r/adapt-react-class js/MaterialUI.CardMedia))
 (def card-content (r/adapt-react-class js/MaterialUI.CardContent))
+(def checkbox (r/adapt-react-class js/MaterialUI.Checkbox))
 (def grid (r/adapt-react-class js/MaterialUI.Grid))
 (def button (r/adapt-react-class js/MaterialUI.Button))
 (def slide (r/adapt-react-class js/MaterialUI.Slide))
@@ -32,6 +33,7 @@
 (def dialog-content-text (r/adapt-react-class js/MaterialUI.DialogContentText))
 (def dialog-actions (r/adapt-react-class js/MaterialUI.DialogActions))
 (def form-control (r/adapt-react-class js/MaterialUI.FormControl))
+(def form-control-label (r/adapt-react-class js/MaterialUI.FormControlLabel))
 (def text-field (r/adapt-react-class js/MaterialUI.TextField))
 
 ;; material-ui/styles
