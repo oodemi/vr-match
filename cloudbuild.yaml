@@ -31,3 +31,6 @@ steps:
     gcloud container clusters get-credentials alice --zone asia-northeast1-a
     kubectl apply -f deployment.yml
     kubectl apply -f service.yml
+
+options:
+  machineType: 'N1_HIGHCPU_8'
