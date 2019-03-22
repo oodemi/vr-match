@@ -34,7 +34,7 @@
   },
   "homepage": "https://github.com/hoge/vr-match#readme",
   "dependencies": {
-    "compression": "1.7.3",
+    "compression": "1.7.4",
     "create-react-class": "15.6.3",
     "express": "4.16.4",
     "nodemon": "1.18.10",
