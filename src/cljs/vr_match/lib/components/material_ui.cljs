@@ -22,6 +22,7 @@
 (def checkbox (r/adapt-react-class js/MaterialUI.Checkbox))
 (def grid (r/adapt-react-class js/MaterialUI.Grid))
 (def button (r/adapt-react-class js/MaterialUI.Button))
+(def button-base (r/adapt-react-class js/MaterialUI.ButtonBase))
 (def slide (r/adapt-react-class js/MaterialUI.Slide))
 (def fade (r/adapt-react-class js/MaterialUI.Fade))
 (def chip (r/adapt-react-class js/MaterialUI.Chip))
