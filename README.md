@@ -1,26 +1,76 @@
-# vr-match
+# Hito Hub
 
-A [re-frame](https://github.com/Day8/re-frame) application designed to ... well, that part is up to you.
+アバター×アバターのマッチングアプリ予定地です
 
-## Development Mode
+## Setup
 
-### Run application:
+このプロジェクトは以下のツールに依存しています。ビルド前にインストールしてください
 
-```
-lein clean
-lein figwheel dev
-```
+- Leiningen
+- nodejs & npm
 
-Figwheel will automatically push cljs changes to the browser.
+### 依存ライブラリのインストール
 
-Wait a bit, then browse to [http://localhost:3449](http://localhost:3449).
-
-## Production Build
-
-
-To compile clojurescript to javascript:
+git clone後やライブラリの変更がある場合は必ず実行してください
 
 ```
-lein clean
-lein cljsbuild once min
+npm install
 ```
+
+## 開発環境の起動
+
+Port8888番でSSR用サーバーが立ち上がります
+
+```
+npm run watch:dev:server
+```
+
+## ビルド
+
+### 本番用
+
+```
+npm run build:prod
+```
+
+### 開発用差分ビルド
+
+```
+npm run figwheel
+```
+
+## コードフォーマット
+
+```
+npm run format
+```
+
+## ディレクトリ構造(TBD)
+
+├── k8s
+├── resources
+│   └── public
+│       ├── css
+│       ├── js
+│       └── prod
+│           ├── img
+│           └── js
+└── src
+    ├── clj
+    ├── cljs
+    │   └── vr_match
+    │       ├── approach
+    │       │   └── components
+    │       ├── example
+    │       ├── lib
+    │       │   └── components
+    │       ├── login
+    │       ├── profile
+    │       │   └── components
+    │       ├── register
+    │       └── wizard
+    │           └── components
+    ├── cljs-client
+    │   └── vr_match
+    └── cljs-server
+        └── vr_match
