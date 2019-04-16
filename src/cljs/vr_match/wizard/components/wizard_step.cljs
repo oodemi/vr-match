@@ -1,5 +1,6 @@
 (ns vr-match.wizard.components.wizard-step
-  (:require [vr-match.lib.components.material-ui :as mui]))
+  (:require [vr-match.lib.components.material-ui :as mui]
+            [vr-match.wizard.components.wizard-title :refer [wizard-title]]))
 
 (defn wizard-step
   [{:keys [title
@@ -17,11 +18,7 @@
                :style {:height "100%"
                        :width "100vw"
                        :padding 32}}
-     [mui/typo-graphy {:component "h2"
-                       :variant "display1"
-                       :gutterBottom true
-                       :style {:text-align "left"}}
-      title]
+     [wizard-title {:title title}]
      form
      [mui/grid {:container true
                 :direction "column"}
