@@ -47,30 +47,26 @@ npm run format
 
 ## ディレクトリ構造(TBD)
 
-├── k8s
+```
+├── k8s: Kubernetes用マニフェストファイル置き場
 ├── resources
-│   └── public
-│       ├── css
-│       ├── js
-│       └── prod
-│           ├── img
-│           └── js
+│   └── public: SSR用サーバーから返す静的ファイル置き場(静的画像とビルド後のjsバンドルのみ)
 └── src
-    ├── clj
+    ├── clj: マクロ置き場
     ├── cljs
     │   └── vr_match
-    │       ├── approach
-    │       │   └── components
-    │       ├── example
-    │       ├── lib
-    │       │   └── components
-    │       ├── login
-    │       ├── profile
-    │       │   └── components
-    │       ├── register
-    │       └── wizard
-    │           └── components
-    ├── cljs-client
-    │   └── vr_match
-    └── cljs-server
-        └── vr_match
+    │       ├── lib: 全画面共通の実装を置く場所
+    │       └── その他のフォルダ: wizard,loginなど機能別の実装を置く場所(re-ducksを参照)
+    ├── cljs-client: クライアントサイドのエントリーポイント
+    └── cljs-server: SSR用サーバーのエントリーポイント
+```
+
+## 参考技術スタック
+
+- Clojure, ClojureScript
+- reagent
+- re-frame
+- React.js
+- workbox
+- re-ducks
+- material-ui
