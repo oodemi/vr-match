@@ -26,6 +26,13 @@
 (defn- handle-next-platform-step
   [platforms]
   (println platforms)
+  (swap! mock-wizard-state
+         (fn [state]
+           (assoc state :step :image))))
+
+(defn- handle-next-image-step
+  [image]
+  (println image)
   (re-frame/dispatch [::events/push "/approach"]))
 
 (defn- handle-click-skip []
@@ -37,6 +44,7 @@
   [component/wizard (merge @mock-wizard-state
                            {:handleNextNicknameStep handle-next-nickname-step
                             :handleNextPlatformStep handle-next-platform-step
+                            :handleNextImageStep handle-next-image-step
                             :handleClickSkip handle-click-skip})])
 
 (util/universal-set-loaded! :wizard)
