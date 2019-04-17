@@ -1,11 +1,13 @@
 (ns vr-match.lib.components.material-ui
-  (:require [reagent.core :as r]
-            ;; [reagent.impl.template :as rtpl]
-            ;; ["material-ui/styles" :refer [withStyles]]
-            ;; material-ui のバージョンアップによって変わったのか、 js/material_ui ではなく js/MaterialUI にモジュールが展開されるようになっていた
-            ["material-ui"]
-            ["material-ui/styles"]
-            ["material-ui/colors"]))
+  (:refer-clojure :exclude [list])
+  (:require
+   [reagent.core :as r]
+   ;; [reagent.impl.template :as rtpl]
+   ;; ["material-ui/styles" :refer [withStyles]]
+   ;; material-ui のバージョンアップによって変わったのか、 js/material_ui ではなく js/MaterialUI にモジュールが展開されるようになっていた
+   ["material-ui"]
+   ["material-ui/styles"]
+   ["material-ui/colors"]))
 
 ;; material-ui
 (def app-bar (r/adapt-react-class js/MaterialUI.AppBar))
@@ -36,6 +38,10 @@
 (def form-control (r/adapt-react-class js/MaterialUI.FormControl))
 (def form-control-label (r/adapt-react-class js/MaterialUI.FormControlLabel))
 (def text-field (r/adapt-react-class js/MaterialUI.TextField))
+(def list (r/adapt-react-class js/MaterialUI.List))
+(def list-item (r/adapt-react-class js/MaterialUI.ListItem))
+(def list-item-avatar (r/adapt-react-class js/MaterialUI.ListItemAvatar))
+(def list-item-text (r/adapt-react-class js/MaterialUI.ListItemText))
 
 ;; material-ui/styles
 (def with-styles (.-withStyles js/MaterialUIStyles))
