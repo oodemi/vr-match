@@ -20,7 +20,9 @@
    :register {:container #(resolve 'vr-match.register.container/register)
               :module-name :register}
    :wizard {:container #(resolve 'vr-match.wizard.container/wizard)
-            :module-name :wizard}})
+            :module-name :wizard}
+   :favorite {:container #(resolve 'vr-match.favorite.container/favorite)
+              :module-name :favorite}})
 
 (defn- lazy-push
   [key params]
@@ -41,6 +43,9 @@
 
 (defroute wizard-path "/wizard" []
   (lazy-push :wizard {}))
+
+(defroute favorite-path "/favorite" []
+  (lazy-push :favorite {}))
 
 (defroute not-found-path "*" []
   (lazy-push :example {}))
