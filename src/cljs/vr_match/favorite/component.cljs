@@ -14,6 +14,7 @@
   (with-meta
     (fn
       [{:keys [items
+               handleClickItem
                handleDidMount]}]
       [navigation-bar-layout {:title "お気に入りに登録したアバター"}
        [:div {:style {:padding "8px"}}
@@ -21,9 +22,11 @@
          (map (fn [{:keys [id userName platForms image introduction]}]
                 ^{:key id}
                 [:div {:style {:margin-bottom "16px"}}
-                 [user-list-item {:image image
+                 [user-list-item {:id id
+                                  :image image
                                   :platForms platForms
                                   :nickname userName
-                                  :introduction introduction}]])
+                                  :introduction introduction
+                                  :handleClick handleClickItem}]])
               items)]]])
     {:component-did-mount component-did-mount}))

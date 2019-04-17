@@ -5,11 +5,15 @@
    [vr-match.lib.components.plat-form-chip :refer [plat-form-chip]]))
 
 (defn user-list-item
-  [{:keys [image
+  [{:keys [id
+           image
            platForms
            nickname
-           introduction]}]
-  [mui/list-item {:alignitems "flex-start"}
+           introduction
+           handleClick]}]
+  [mui/list-item {:alignitems "flex-start"
+                  :button true
+                  :on-click #(handleClick id)}
    [mui/list-item-avatar
     [mui/avatar {:src image
                  :style {:width "56px"

@@ -1,7 +1,9 @@
 (ns vr-match.favorite.container
   (:require [reagent.core :as reagent]
             [vr-match.util :as util]
-            [vr-match.favorite.component :refer [favorite-component]]))
+            [vr-match.favorite.component :refer [favorite-component]]
+            [vr-match.events :as events]
+            [re-frame.core :as re-frame]))
 
 (def mock-favorite-state
   (reagent/atom {:items []}))
@@ -36,9 +38,14 @@
                          (take 30))))))
    300))
 
+(defn handle-go-to-profile
+  [id]
+  (re-frame/dispatch [::events/push (str "/profile/" id)]))
+
 (defn favorite
   [params]
-  [favorite-component (merge {:handleDidMount handle-did-mount}
+  [favorite-component (merge {:handleDidMount handle-did-mount
+                              :handleClickItem handle-go-to-profile}
                              @mock-favorite-state)])
 
 (util/universal-set-loaded! :favorite)
