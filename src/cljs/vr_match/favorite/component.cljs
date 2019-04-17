@@ -3,7 +3,7 @@
    [reagent.core :as r]
    [vr-match.lib.component :refer [navigation-bar-layout]]
    [vr-match.lib.components.material-ui :as mui]
-   [vr-match.lib.components.list-item :refer [list-item]]))
+   [vr-match.lib.components.user-list-item :refer [user-list-item]]))
 
 (defn- component-did-mount
   [this]
@@ -21,9 +21,9 @@
          (map (fn [{:keys [id userName platForms image introduction]}]
                 ^{:key id}
                 [:div {:style {:margin-bottom "16px"}}
-                 [list-item {:image image
-                             :platForms platForms
-                             :nickname userName
-                             :introduction introduction}]])
+                 [user-list-item {:image image
+                                  :platForms platForms
+                                  :nickname userName
+                                  :introduction introduction}]])
               items)]]])
     {:component-did-mount component-did-mount}))

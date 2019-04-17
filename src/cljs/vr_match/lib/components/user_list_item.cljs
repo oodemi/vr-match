@@ -1,10 +1,10 @@
-(ns vr-match.lib.components.list-item
+(ns vr-match.lib.components.user-list-item
   (:require
    [reagent.core :as r]
    [vr-match.lib.components.material-ui :as mui]
    [vr-match.lib.components.plat-form-chip :refer [plat-form-chip]]))
 
-(defn list-item
+(defn user-list-item
   [{:keys [image
            platForms
            nickname
