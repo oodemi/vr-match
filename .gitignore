@@ -1,5 +1,4 @@
 /*.log
-front-end/target
 /*-init.clj
 front-end/resources/public/js/compiled
 front-end/resources/public/prod/js/compiled
@@ -14,3 +13,4 @@ out
 .rebel_readline_history
 .cljs_nashorn_repl
 nashorn_code_cache
+target

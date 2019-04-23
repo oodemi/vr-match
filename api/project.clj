@@ -11,7 +11,8 @@
                  [ring/ring-json "0.4.0"]
                  [compojure "1.6.0"]
                  [cheshire "5.7.1"]
-                 [org.clojure/tools.namespace "0.2.10"]]
+                 [org.clojure/tools.namespace "0.2.10"]
+                 [com.walmartlabs/lacinia "0.33.0-alpha-3"]]
   :profiles
   {:dev {:source-paths ["src" "dev"]}
    :uberjar {:main vr-match-api.system}})

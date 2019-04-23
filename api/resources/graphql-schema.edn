@@ -1,0 +1,19 @@
+{:objects
+ {:PlatForms
+  {:fields {:id {:type ID}
+            :name {:type String}}}
+  :User
+  {:fields {:id {:type ID}
+            :user_name {:type String}
+            :introduction {:type String}
+            :image {:type (list String)}
+            :plat_forms {:type (list :PlatForms)}}}}
+ :queries
+ {:approachList {:type (list :User)
+                 :args {:limit {:type Int
+                                :description "取得したい最大人数。デフォルトは12"
+                                :default-value 20}
+                        :offset {:type Int
+                                 :description "既に取得したお相手の人数。デフォルトは0"
+                                 :default-value 0}}
+                 :resolve :resolve-approach-list}}}

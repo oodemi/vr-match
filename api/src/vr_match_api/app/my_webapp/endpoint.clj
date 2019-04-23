@@ -12,6 +12,7 @@
   [{:keys [my-webapp-handler] :as comp}]
   (routes
     (GET "/" [req] (handler/index my-webapp-handler))
+    (GET "/graphql" [req] (handler/graphql my-webapp-handler req))
     (route/not-found "<h1>404 page not found</h1>")))
 
 (defn app
