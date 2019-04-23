@@ -3,7 +3,7 @@ steps:
 
 # Build
 - name: 'gcr.io/cloud-builders/docker'
-  args: [ 'build', '-t', 'gcr.io/$PROJECT_ID/vr-match:$REVISION_ID', '-f', 'Dockerfile', '.' ]
+  args: [ 'build', '-t', 'gcr.io/$PROJECT_ID/vr-match:$REVISION_ID', '-f', './front-end/Dockerfile', './front-end' ]
 
 # Push
 - name: 'gcr.io/cloud-builders/docker'
@@ -18,8 +18,8 @@ steps:
   args:
   - '-c'
   - |
-    envsubst < k8s/deployment.yml > deployment.yml
-    envsubst < k8s/service.yml > service.yml
+    envsubst < front-end/k8s/deployment.yml > front-end-deployment.yml
+    envsubst < front-end/k8s/service.yml > front-end-service.yml
 
 # Deploy
 - name: 'gcr.io/cloud-builders/gcloud'
@@ -29,5 +29,5 @@ steps:
   - |
     gcloud config set container/use_client_certificate True
     gcloud container clusters get-credentials alice --zone asia-northeast1-a
-    kubectl apply -f deployment.yml
-    kubectl apply -f service.yml
+    kubectl apply -f front-end-deployment.yml
+    kubectl apply -f front-end-service.yml

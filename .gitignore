@@ -1,11 +1,11 @@
 /*.log
-/target
+front-end/target
 /*-init.clj
-resources/public/js/compiled
-resources/public/prod/js/compiled
-resources/public/prod/sw.js
-/dev-resources
-/node_modules
+front-end/resources/public/js/compiled
+front-end/resources/public/prod/js/compiled
+front-end/resources/public/prod/sw.js
+front-end/dev-resources
+front-end/node_modules
 out
 *.swp
 .nrepl-port
