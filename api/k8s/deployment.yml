@@ -1,0 +1,21 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: vr-match-api
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: vr-match-api
+    spec:
+      containers:
+      - name: vr-match-api
+        image: gcr.io/${PROJECT_ID}/vr-match-api:${REVISION_ID}
+        ports:
+        - containerPort: 8080
+        env:
+          - name: VR_MATCH_API_MY_WEBAPP_PORT
+            value: "8080"
+          - name: VR_MATCH_API_EXAMPLE_PORT
+            value: "8000"
