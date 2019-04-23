@@ -4,14 +4,22 @@ steps:
 # Build
 - name: 'gcr.io/cloud-builders/docker'
   args: [ 'build', '-t', 'gcr.io/$PROJECT_ID/vr-match:$REVISION_ID', '-f', './front-end/Dockerfile', './front-end' ]
+  id: 'build-front-end'
+  waitFor: ['-']
 - name: 'gcr.io/cloud-builders/docker'
   args: [ 'build', '-t', 'gcr.io/$PROJECT_ID/vr-match-api:$REVISION_ID', '-f', './api/Dockerfile', './api' ]
+  id: 'build-api'
+  waitFor: ['-']
 
 # Push
 - name: 'gcr.io/cloud-builders/docker'
   args: ["push", "gcr.io/$PROJECT_ID/vr-match:$REVISION_ID"]
+  id: 'push-front-end'
+  waitFor: ['build-front-end']
 - name: 'gcr.io/cloud-builders/docker'
   args: ["push", "gcr.io/$PROJECT_ID/vr-match-api:$REVISION_ID"]
+  id: 'push-api'
+  waitFor: ['build-api']
 
 # Apply environment variable
 - name: 'loicmahieu/alpine-envsubst'
@@ -19,6 +27,8 @@ steps:
   env:
   - "REVISION_ID=$REVISION_ID"
   - "PROJECT_ID=$PROJECT_ID"
+  id: 'apply-env'
+  waitFor: ['push-front-end', 'push-api']
   args:
   - '-c'
   - |
@@ -30,6 +40,7 @@ steps:
 # Deploy
 - name: 'gcr.io/cloud-builders/gcloud'
   entrypoint: 'bash'
+  waitFor: ['apply-env']
   args:
   - '-c'
   - |
