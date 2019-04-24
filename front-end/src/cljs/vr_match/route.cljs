@@ -48,4 +48,4 @@
   (lazy-push :favorite {}))
 
 (defroute not-found-path "*" []
-  (lazy-push :example {}))
+  (lazy-push :approach {}))

@@ -1,9 +1,13 @@
 (ns vr-match.approach.container
   (:require [reagent.core :as reagent]
             [vr-match.approach.component :as component]
+            [vr-match.approach.events :as approach-events]
+            [vr-match.approach.subs :as approach-subs]
             [vr-match.util :as util]
             [vr-match.events :as events]
             [re-frame.core :as re-frame]))
+
+(def user-per-page 12)
 
 (declare mock-approach-state)
 
@@ -25,30 +29,9 @@
   []
   (js/setTimeout
    (fn []
+     (re-frame/dispatch [::approach-events/fetch-approach-list {:limit user-per-page}])
      (swap! mock-approach-state
             #(-> %
-                 (assoc :cardItems
-                        (->>
-                          [{:id 1
-                            :title "サンプル画像"
-                            :userName "一箱"
-                            :introduction "バーチャル清楚系女子高校生Webアプリケーションエンジニアおじさんです。こっそりプログラミングしてます。"
-                            :platForms [{:id 1 :name "VRChat"} {:id 2 :name "VRoidHub"} {:id 3 :name "VirtualCast"}]
-                            :image "https://storage.googleapis.com/boxp-tmp/profile_sample.png"}
-                           {:id 2
-                            :title "サンプル画像"
-                            :userName "ヒマリ"
-                            :introduction "一箱さんちのヒマリです！"
-                            :platForms [{:id 1 :name "VRChat"} {:id 3 :name "VirtualCast"}]
-                            :image "https://storage.googleapis.com/boxp-tmp/profile_sample_2.jpg"}
-                           {:id 3
-                            :title "サンプル画像"
-                            :userName "アリシア・ソリッド"
-                            :introduction "ニコニ立体で公式キャラクターやってます。よろしくお願いします！"
-                            :platForms [{:id 3 :name "VirtualCast"}]
-                            :image "https://storage.googleapis.com/boxp-tmp/profile_sample_3.jpg"}]
-                          cycle
-                          (take 1000)))
                  (assoc :me {:id 1
                              :title "サンプル画像"
                              :userName "一箱"
@@ -67,9 +50,13 @@
 
 (defn approach
   [params]
-  [component/approach (merge @mock-approach-state {:handleClickSkip handle-click-skip
-                                                   :handleClickFavorite handle-click-favorite
-                                                   :handleClickGoToProfile handle-click-go-to-profile
-                                                   :handleDidMount handle-did-mount})])
+  (let [card-items (re-frame/subscribe
+                    [::approach-subs/approach-list])]
+    (println @card-items)
+    [component/approach (merge @mock-approach-state {:handleClickSkip handle-click-skip
+                                                     :handleClickFavorite handle-click-favorite
+                                                     :handleClickGoToProfile handle-click-go-to-profile
+                                                     :handleDidMount handle-did-mount
+                                                     :cardItems @card-items})]))
 
 (util/universal-set-loaded! :approach)

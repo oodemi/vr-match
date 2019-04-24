@@ -1,6 +1,7 @@
 (ns vr-match.events
   (:require
    [re-frame.core :as re-frame]
+   [re-graph.core :as re-graph]
    [vr-match.effects :as effects]
    [vr-match.coeffects :as coeffects]
    [vr-match.db :as db]))
@@ -8,7 +9,9 @@
 (re-frame/reg-event-fx
  ::initialize
  (fn [{:keys []} [_ history preload]]
-   (as-> {:db db/default-db} $
+   (as-> {:db db/default-db
+          :dispatch [::re-graph/init {:ws-url nil
+                                      :http-url "http://localhost:8080/graphql"}]} $
      (if preload (update $ :db #(merge % preload)))
      (if history (assoc-in $ [:db :history] history) $))))
 

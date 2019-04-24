@@ -1,7 +1,8 @@
 (ns vr-match.db)
 
 (def default-db
-  {:router {:key :loading
+  {:approach {:list []}
+   :router {:key :loading
             :params {}}
    :api-error nil
    :history nil})
