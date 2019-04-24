@@ -44,7 +44,7 @@
                                 "flexGrow" 2}
                         :component "div"
                         :alt title
-                        :image image
+                        :image (first image)
                         :title title}]
        [mui/card-content {:style {"width" "100%"
                                   "boxSizing" "border-box"

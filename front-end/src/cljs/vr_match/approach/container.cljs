@@ -52,7 +52,6 @@
   [params]
   (let [card-items (re-frame/subscribe
                     [::approach-subs/approach-list])]
-    (println @card-items)
     [component/approach (merge @mock-approach-state {:handleClickSkip handle-click-skip
                                                      :handleClickFavorite handle-click-favorite
                                                      :handleClickGoToProfile handle-click-go-to-profile
