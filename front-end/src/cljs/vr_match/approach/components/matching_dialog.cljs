@@ -42,7 +42,7 @@
        [mui/slide {:direction "left"
                    :in isOpen}
         [mui/avatar {:alt (:userName partner)
-                     :src (:image partner)
+                     :src (-> partner :image first)
                      :style {:width 112
                              :height 112}}]]]]]]
    [mui/dialog-actions
