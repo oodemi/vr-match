@@ -1,6 +1,6 @@
 (ns vr-match-api.app.my-webapp.handler
   (:require [com.stuartsierra.component :as component]
-            [cheshire.core :refer [generate-string]]
+            [cheshire.core :refer [generate-string parse-string]]
             [clojure.edn :as edn]
             [com.walmartlabs.lacinia.util :refer [attach-resolvers]]
             [com.walmartlabs.lacinia.schema :as schema]
@@ -10,15 +10,23 @@
 
 (defn index
   [{:keys [example-usecase] :as comp}]
-  (-> {:message (example-usecase/get-message example-usecase)}
+  {:status 200
+   :headers {"Content-Type" "application/json"}
+   :body (-> {:message (example-usecase/get-message example-usecase)}
 
-      generate-string))
+             generate-string)})
 
 (defn graphql
   [{:keys [graphql-schema]} req]
-  (let [query (-> req :query-params :query)]
-    (-> (execute graphql-schema query nil nil)
-        generate-string)))
+  (let [query (-> req
+                  :body
+                  slurp
+                  (parse-string true)
+                  :query)]
+    {:status 200
+     :headers {}
+     :body (-> (execute graphql-schema query nil nil)
+               generate-string)}))
 
 (defn- load-schema []
   (-> "resources/graphql-schema.edn"

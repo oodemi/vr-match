@@ -38,7 +38,9 @@
                  [kibu/pushy "0.3.8"]
                  [day8.re-frame/http-fx "0.1.6"]
                  [stylefy "1.9.0"]
-                 [cljsjs/material-ui "3.1.1-0"]]
+                 [cljsjs/material-ui "3.1.1-0"]
+                 [re-graph "0.1.8"]
+                 [vincit/venia "0.2.5"]]
 
   :plugins [[lein-cljsbuild "1.1.7"]]
 

@@ -1,26 +1,45 @@
 (ns vr-match-api.app.my-webapp.endpoint
   (:require [com.stuartsierra.component :as component]
-            [compojure.core :refer [defroutes context GET POST routes]]
+            [compojure.core :refer [defroutes context GET POST OPTIONS routes]]
             [compojure.route :as route]
             [ring.adapter.jetty :as server]
-            [ring.middleware.json :refer [wrap-json-params
-                                          wrap-json-response
-                                          wrap-json-body]]
             [vr-match-api.app.my-webapp.handler :as handler]))
+
+(defn wrap-header-csp
+  [handler origin]
+  (fn [request]
+    (assoc-in (handler request)
+              [:headers "Content-Security-Policy"]
+              (str "default-src " origin))))
+
+(defn wrap-header-cors
+  [handler origin]
+  (fn [request]
+    (-> (handler request)
+        (assoc-in [:headers "Access-Control-Allow-Origin"] origin)
+        (assoc-in [:headers "Access-Control-Allow-Credentials"] "true"))))
 
 (defn main-routes
   [{:keys [my-webapp-handler] :as comp}]
   (routes
-    (GET "/" [req] (handler/index my-webapp-handler))
-    (GET "/graphql" [req] (handler/graphql my-webapp-handler req))
-    (route/not-found "<h1>404 page not found</h1>")))
+   (GET "/" [] (handler/index my-webapp-handler))
+   (POST "/graphql" req (handler/graphql my-webapp-handler req))
+   (OPTIONS "*" []
+     {:status 200
+      :headers {"Access-Control-Allow-Methods" "POST, GET, OPTIONS"
+                "Access-Control-Allow-Credentials" "true"
+                "Access-Control-Allow-Headers" "Content-Type"}})
+   (route/not-found {:status 404
+                     :headers {}
+                     :body "<h1>404 page not found</h1>"})))
 
 (defn app
-  [comp]
+  [{:keys [client-origin] :as comp}]
   (-> (main-routes comp)
-      (wrap-json-body {:keywords? true :bigdecimals? true})))
+      (wrap-header-csp client-origin)
+      (wrap-header-cors client-origin)))
 
-(defrecord MyWebappEndpointComponent [port server my-webapp-handler]
+(defrecord MyWebappEndpointComponent [port server client-origin my-webapp-handler]
   component/Lifecycle
   (start [this]
     (println ";; Starting MyWebappEndpointComponent")
@@ -33,5 +52,6 @@
         (dissoc :server))))
 
 (defn my-webapp-endpoint-component
-  [port]
-  (map->MyWebappEndpointComponent {:port port}))
+  [port client-origin]
+  (map->MyWebappEndpointComponent {:port port
+                                   :client-origin client-origin}))

@@ -24,6 +24,8 @@
 (def compression (js/require "compression"))
 (def ^:export app (express))
 
+(def api-endpoint (or js/process.env.API_ENDPOINT "http://localhost:8080"))
+
 (def JssProvider (-> (js/require "react-jss/lib/JssProvider") .-default adapt-react-class))
 (def jss (js/require "react-jss/lib/jss"))
 (def sheets-registry (.-SheetsRegistry jss))
@@ -149,7 +151,7 @@
         sheets-manager (new js/Map)
         generate-class-name (mui/create-generate-class-name)
         theme (mui/theme)]
-    (re-frame/dispatch-sync [::events/initialize])
+    (re-frame/dispatch-sync [::events/initialize {:api-endpoint api-endpoint}])
     (secretary/dispatch! request-path)
     (.format res #js {"text/html" #(.send res (render-index sheets-registry
                                                             generate-class-name

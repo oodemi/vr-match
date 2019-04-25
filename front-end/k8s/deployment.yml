@@ -24,3 +24,6 @@ spec:
         image: gcr.io/${PROJECT_ID}/vr-match:${REVISION_ID}
         ports:
         - containerPort: 3000
+        env:
+          - name: API_ENDPOINT
+            value: "https://api-hito-hub.boxp.tk"

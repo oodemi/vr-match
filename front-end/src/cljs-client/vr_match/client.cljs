@@ -78,7 +78,10 @@
   (let [preload (preload-state)]
     (util/universal-load (-> preload :router :key route/route-table :module-name)
       (fn []
-        (re-frame/dispatch-sync [::events/initialize history preload])
+        (re-frame/dispatch-sync
+         [::events/initialize
+          {:history history
+           :preload preload}])
         (dev-setup)
         (hook-history)
         (mount-root)))))

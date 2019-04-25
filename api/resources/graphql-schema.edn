@@ -1,13 +1,13 @@
 {:objects
  {:PlatForms
-  {:fields {:id {:type ID}
+  {:fields {:id {:type Int}
             :name {:type String}}}
   :User
-  {:fields {:id {:type ID}
-            :user_name {:type String}
+  {:fields {:id {:type Int}
+            :userName {:type String}
             :introduction {:type String}
             :image {:type (list String)}
-            :plat_forms {:type (list :PlatForms)}}}}
+            :platForms {:type (list :PlatForms)}}}}
  :queries
  {:approachList {:type (list :User)
                  :args {:limit {:type Int
