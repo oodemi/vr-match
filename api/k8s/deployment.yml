@@ -19,5 +19,5 @@ spec:
             value: "8080"
           - name: VR_MATCH_API_EXAMPLE_PORT
             value: "8000"
-          - name: VR_MATCH_CLIENT_ENDPOINT
+          - name: VR_MATCH_CLIENT_ORIGIN
             value: "https://vr-match.boxp.tk"
