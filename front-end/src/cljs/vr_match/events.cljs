@@ -8,12 +8,17 @@
 
 (re-frame/reg-event-fx
  ::initialize
- (fn [{:keys []} [_ history preload]]
-   (as-> {:db db/default-db
-          :dispatch [::re-graph/init {:ws-url nil
-                                      :http-url "http://localhost:8080/graphql"}]} $
+ (fn [{:keys []} [_ {:keys [history
+                            preload
+                            api-endpoint]}]]
+   (as-> {:db db/default-db} $
      (if preload (update $ :db #(merge % preload)))
-     (if history (assoc-in $ [:db :history] history) $))))
+     (if history (assoc-in $ [:db :history] history) $)
+     (if api-endpoint (assoc-in $ [:db :api-endpoint] api-endpoint) $)
+     (assoc $ :dispatch
+            [::re-graph/init
+             {:ws-url nil
+              :http-url (str (-> $ :db :api-endpoint) "/graphql")}]))))
 
 (re-frame/reg-event-db
  ::universal-push

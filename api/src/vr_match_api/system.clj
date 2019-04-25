@@ -10,7 +10,8 @@
 
 (defn vr-match-api-system
   [{:keys [vr-match-api-example-port
-           vr-match-api-my-webapp-port] :as conf}]
+           vr-match-api-my-webapp-port
+           vr-match-client-origin] :as conf}]
   (component/system-map
     :example-datasource (example-datasource-component vr-match-api-example-port)
     :example-repository (component/using
@@ -23,11 +24,13 @@
                          (my-webapp-handler-component)
                          [:example-usecase])
     :my-webapp-endpoint (component/using
-                          (my-webapp-endpoint-component vr-match-api-my-webapp-port)
+                         (my-webapp-endpoint-component vr-match-api-my-webapp-port
+                                                       vr-match-client-origin)
                           [:my-webapp-handler])))
 
 (defn load-config []
-  {:vr-match-api-example-port (-> (or (env :vr-match-api-example-port) "8000") Integer/parseInt)
+  {:vr-match-client-origin (or (env :vr-match-client-origin) "http://localhost:8888")
+   :vr-match-api-example-port (-> (or (env :vr-match-api-example-port) "8000") Integer/parseInt)
    :vr-match-api-my-webapp-port (-> (or (env :vr-match-api-my-webapp-port) "8080") Integer/parseInt)})
 
 (defn -main []

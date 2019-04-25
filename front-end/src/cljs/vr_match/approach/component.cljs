@@ -97,7 +97,6 @@
         [action-buttons {:onClickSkip #(onClickSkip props)
                          :onClickFavorite #(onClickFavorite props)}]
         [matching-dialog {:isOpen (:isOpenMatchingDialog @approach-state)
-                          ;; TODO: meのつなぎこみ
                           :me (js->clj me :keywordize-keys true)
                           :partner (-> @approach-state :matchingPartner (js->clj :keywordize-keys true))
                           :handleClickGoToProfile #(handleClickGoToProfile props %)

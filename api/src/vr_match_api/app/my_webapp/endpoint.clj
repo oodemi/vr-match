@@ -6,17 +6,17 @@
             [vr-match-api.app.my-webapp.handler :as handler]))
 
 (defn wrap-header-csp
-  [handler]
+  [handler origin]
   (fn [request]
     (assoc-in (handler request)
               [:headers "Content-Security-Policy"]
-              "default-src http://localhost:8888")))
+              (str "default-src " origin))))
 
 (defn wrap-header-cors
-  [handler]
+  [handler origin]
   (fn [request]
     (-> (handler request)
-        (assoc-in [:headers "Access-Control-Allow-Origin"] "http://localhost:8888")
+        (assoc-in [:headers "Access-Control-Allow-Origin"] origin)
         (assoc-in [:headers "Access-Control-Allow-Credentials"] "true"))))
 
 (defn main-routes
@@ -34,12 +34,12 @@
                      :body "<h1>404 page not found</h1>"})))
 
 (defn app
-  [comp]
+  [{:keys [client-origin] :as comp}]
   (-> (main-routes comp)
-      wrap-header-csp
-      wrap-header-cors))
+      (wrap-header-csp client-origin)
+      (wrap-header-cors client-origin)))
 
-(defrecord MyWebappEndpointComponent [port server my-webapp-handler]
+(defrecord MyWebappEndpointComponent [port server client-origin my-webapp-handler]
   component/Lifecycle
   (start [this]
     (println ";; Starting MyWebappEndpointComponent")
@@ -52,5 +52,6 @@
         (dissoc :server))))
 
 (defn my-webapp-endpoint-component
-  [port]
-  (map->MyWebappEndpointComponent {:port port}))
+  [port client-origin]
+  (map->MyWebappEndpointComponent {:port port
+                                   :client-origin client-origin}))
