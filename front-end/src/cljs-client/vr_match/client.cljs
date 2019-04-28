@@ -63,10 +63,15 @@
         [mui/MuiThemeProvider {:theme mui-theme}
          [component/app]]])}))
 
-(defn ^:export mount-root []
+(defn mount-root []
   (re-frame/clear-subscription-cache!)
   (react-dom/hydrate (reagent/as-element [index])
                   (.getElementById js/document "app")))
+
+(defn ^:export remount-for-figwheel []
+  (re-frame/clear-subscription-cache!)
+  (reagent/render-component [index]
+                            (.getElementById js/document "app")))
 
 (defn- preload-state []
   (some->

@@ -66,7 +66,7 @@
   {:builds
    [{:id           "dev"
      :source-paths ["src/cljs" "src/cljs-client"]
-     :figwheel     {:on-jsload "vr-match.client/mount-root"}
+     :figwheel     {:on-jsload "vr-match.client/remount-for-figwheel"}
      :compiler     {:main vr-match.client
                     :output-dir      "resources/public/js/compiled"
                     :asset-path      "/static/js/compiled"
