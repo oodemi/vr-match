@@ -4,6 +4,7 @@
             [vr-match.lib.components.material-ui :as mui]
             [vr-match.lib.component :refer [navigation-bar-layout]]
             [vr-match.approach.components.cards :refer [cards]]
+            [vr-match.approach.components.swipe-card-item :refer [swipe-card-item]]
             [vr-match.approach.components.action-buttons :refer [action-buttons]]
             [vr-match.approach.components.matching-dialog :refer [matching-dialog]]))
 
@@ -88,12 +89,15 @@
                   :class-name (.-root classes)}
         [mui/grid {:container true
                    :justify "center"}
-         [cards {:firstItem (-> @approach-state :firstItem)
-                 :secondItem (-> @approach-state :secondItem)
-                 :isFavorite (-> @approach-state :isFavorite)
-                 :isSwipe (-> @approach-state :isSwipe)
-                 :handleClickCardItem #(handleClickGoToProfile props %)
-                 :handleOnExit #(handleOnExit props)}]]
+         ;; [cards {:firstItem (-> @approach-state :firstItem)
+         ;;         :secondItem (-> @approach-state :secondItem)
+         ;;         :isFavorite (-> @approach-state :isFavorite)
+         ;;         :isSwipe (-> @approach-state :isSwipe)
+         ;;         :handleClickCardItem #(handleClickGoToProfile props %)
+         ;;         :handleOnExit #(handleOnExit props)}]
+         [:div {:style {:will-change "transform"}}
+          [swipe-card-item {:item (-> @approach-state :firstItem)
+                            :handleClickCard #()}]]]
         [action-buttons {:onClickSkip #(onClickSkip props)
                          :onClickFavorite #(onClickFavorite props)}]
         [matching-dialog {:isOpen (:isOpenMatchingDialog @approach-state)
