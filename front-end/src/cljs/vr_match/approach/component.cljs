@@ -4,6 +4,7 @@
             [vr-match.lib.components.material-ui :as mui]
             [vr-match.lib.component :refer [navigation-bar-layout]]
             [vr-match.approach.components.cards :refer [cards]]
+            [vr-match.approach.components.swipe-card-item :refer [swipe-card-item]]
             [vr-match.approach.components.action-buttons :refer [action-buttons]]
             [vr-match.approach.components.matching-dialog :refer [matching-dialog]]))
 
@@ -13,7 +14,12 @@
            :matchingPartner nil
            :isSwipe false
            :isFavorite false
-           :isOpenMatchingDialog false}))
+           :isReturning false
+           :isOpenMatchingDialog false
+           :swipeStartPosition {:x 0
+                                :y 0}
+           :swipeCurrentPosition {:x 0
+                                  :y 0}}))
 
 (def approach-styles
   #js {"root" #js {"height" "100%"}})
@@ -51,9 +57,37 @@
   [props]
   (swap! approach-state
          #(-> % (assoc :isFavorite true)
-                (assoc :isOpenMatchingDialog true)
-                (assoc :matchingPartner (-> @approach-state :firstItem))))
+              (assoc :isOpenMatchingDialog true)
+              (assoc :matchingPartner (-> @approach-state :firstItem))))
   ((:handleClickFavorite props)))
+
+(defn- onSwipeCardTouchStart
+  [event]
+  (let [position-x (-> event .-targetTouches (aget 0) .-pageX)
+        position-y (-> event .-targetTouches (aget 0) .-pageY)]
+    (-> approach-state
+        (swap! #(-> %
+                    (assoc :isReturning false)
+                    (assoc-in [:swipeStartPosition :x] position-x)
+                    (assoc-in [:swipeStartPosition :y] position-y)
+                    (assoc-in [:swipeCurrentPosition :x] position-x)
+                    (assoc-in [:swipeCurrentPosition :y] position-y))))))
+
+(defn- onSwipeCardTouchMoved
+  [event]
+  (let [position-x (-> event .-targetTouches (aget 0) .-pageX)
+        position-y (-> event .-targetTouches (aget 0) .-pageY)]
+    (-> approach-state
+        (swap!
+         #(-> %
+              (assoc-in [:swipeCurrentPosition :x] position-x)
+              (assoc-in [:swipeCurrentPosition :y] position-y))))))
+
+(defn- onSwipeCardTouchEnd []
+  (-> approach-state
+      (swap!
+       #(-> %
+            (assoc :isReturning true)))))
 
 (defn- handleOnExit
   [props]
@@ -72,6 +106,38 @@
   (swap! approach-state
          #(-> % (assoc :isOpenMatchingDialog false))))
 
+(defn- state->current-swipe-card-transform
+  [state]
+  (let [add-x (- (-> state :swipeCurrentPosition :x)
+                 (-> state :swipeStartPosition :x))
+        add-y (- (-> state :swipeCurrentPosition :y)
+                 (-> state :swipeStartPosition :y))
+        rotate (/ add-x 26)]
+    (str "translate("
+         add-x "px,"
+         add-y "px) "
+         "rotate("
+         rotate "deg)")))
+
+(defn- state->return-swipe-card-animation
+  [state]
+  (str
+  "@keyframes returnSwipeCard {
+     from {
+       transform: " (state->current-swipe-card-transform state) "
+     }
+     to {
+       transform: translate(0, 0) rotate(0);
+     }
+   }
+   .swipe-animation {
+     animation-name: returnSwipeCard;
+     animation-duration: 150ms;
+     animation-timing-function: ease-out;
+     animation-iteration-count: 1;
+     animation-fill-mode: both;
+   }"))
+
 (def approach-component
   (with-meta
     (fn
@@ -88,12 +154,24 @@
                   :class-name (.-root classes)}
         [mui/grid {:container true
                    :justify "center"}
-         [cards {:firstItem (-> @approach-state :firstItem)
-                 :secondItem (-> @approach-state :secondItem)
-                 :isFavorite (-> @approach-state :isFavorite)
-                 :isSwipe (-> @approach-state :isSwipe)
-                 :handleClickCardItem #(handleClickGoToProfile props %)
-                 :handleOnExit #(handleOnExit props)}]]
+         ;; [cards {:firstItem (-> @approach-state :firstItem)
+         ;;         :secondItem (-> @approach-state :secondItem)
+         ;;         :isFavorite (-> @approach-state :isFavorite)
+         ;;         :isSwipe (-> @approach-state :isSwipe)
+         ;;         :handleClickCardItem #(handleClickGoToProfile props %)
+         ;;         :handleOnExit #(handleOnExit props)}]
+         [:style (state->return-swipe-card-animation @approach-state)]
+         [:div {:style {:will-change "transform"
+                        :transform (when-not (:isReturning @approach-state)
+                                     (state->current-swipe-card-transform @approach-state))
+                        :animation-play-state (:isReturning @approach-state)}
+                :class (when (:isReturning @approach-state)
+                         "swipe-animation")
+                :on-touch-start onSwipeCardTouchStart
+                :on-touch-move onSwipeCardTouchMoved
+                :on-touch-end onSwipeCardTouchEnd}
+          [swipe-card-item {:item (-> @approach-state :firstItem)
+                            :handleClickCard #()}]]]
         [action-buttons {:onClickSkip #(onClickSkip props)
                          :onClickFavorite #(onClickFavorite props)}]
         [matching-dialog {:isOpen (:isOpenMatchingDialog @approach-state)

@@ -3,9 +3,8 @@
             [vr-match.lib.components.material-ui :as mui]
             [vr-match.lib.components.plat-form-chip :refer [plat-form-chip]]))
 
-(defn swipe-card-item-component
-  [{:keys [classes
-           item
+(defn swipe-card-item
+  [{:keys [item
            handleClickCard]
     :as props}]
   (let [{:keys [id
@@ -23,6 +22,7 @@
                                      "position" "relative"
                                      "display" "flex"
                                      "flexDirection" "column"}
+                             :disableRipple true
                              :on-click #(handleClickCard id)}
        [mui/card-media {:style {"objectFit" "cover"
                                 "width" "86vw"
@@ -51,4 +51,3 @@
                           :style {:width "72vw"}}
          introduction]]]]))
 
-(def card-item card-item-component)
