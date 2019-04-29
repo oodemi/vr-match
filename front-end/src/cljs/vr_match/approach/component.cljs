@@ -172,8 +172,11 @@
                 :on-touch-end onSwipeCardTouchEnd}
           [swipe-card-item {:item (-> @approach-state :firstItem)
                             :handleClickCard #()}]]]
-        [action-buttons {:onClickSkip #(onClickSkip props)
-                         :onClickFavorite #(onClickFavorite props)}]
+        [:div {:style {:will-change "transform"
+                       :width "100%"}}
+         [action-buttons {:onClickSkip #(onClickSkip props)
+                          :onClickFavorite #(onClickFavorite props)}]]
+        
         [matching-dialog {:isOpen (:isOpenMatchingDialog @approach-state)
                           :me (js->clj me :keywordize-keys true)
                           :partner (-> @approach-state :matchingPartner (js->clj :keywordize-keys true))
