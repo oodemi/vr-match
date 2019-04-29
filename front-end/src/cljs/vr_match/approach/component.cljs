@@ -21,31 +21,10 @@
            :swipeCurrentPosition {:x 0
                                   :y 0}}))
 
+(def card-ref (r/atom nil))
+
 (def approach-styles
   #js {"root" #js {"height" "100%"}})
-
-(defn- component-did-mount
-  [this]
-  (let [props (r/props this)]
-    (swap! approach-state
-           #(-> %
-                (assoc :firstItem (-> props :cardItems first))
-                (assoc :secondItem (-> props :cardItems second))
-                (assoc :isOpenMatchingDialog false)))
-    (when (= (-> props :cardItems count) 0)
-      ((:handleDidMount props)))))
-
-(defn- component-did-update
-  [this [_ old-props]]
-  (let [new-props (r/props this)]
-    (when (and (not= (some-> new-props :cardItems first .-id)
-                     (some-> old-props :cardItems first .-id))
-               (not (-> @approach-state :isSwipe))
-               (not (-> @approach-state :isFavorite)))
-      (swap! approach-state
-             #(-> %
-                  (assoc :firstItem (-> new-props :cardItems first))
-                  (assoc :secondItem (-> new-props :cardItems second)))))))
 
 (defn- onClickSkip
   [props]
@@ -81,7 +60,8 @@
         (swap!
          #(-> %
               (assoc-in [:swipeCurrentPosition :x] position-x)
-              (assoc-in [:swipeCurrentPosition :y] position-y))))))
+              (assoc-in [:swipeCurrentPosition :y] position-y))))
+    (.. event preventDefault)))
 
 (defn- onSwipeCardTouchEnd []
   (-> approach-state
@@ -122,7 +102,7 @@
 (defn- state->return-swipe-card-animation
   [state]
   (str
-  "@keyframes returnSwipeCard {
+   "@keyframes returnSwipeCard {
      from {
        transform: " (state->current-swipe-card-transform state) "
      }
@@ -137,6 +117,46 @@
      animation-iteration-count: 1;
      animation-fill-mode: both;
    }"))
+
+(defn- component-did-mount
+  [this]
+  (let [props (r/props this)]
+    (swap! approach-state
+           #(-> %
+                (assoc :firstItem (-> props :cardItems first))
+                (assoc :secondItem (-> props :cardItems second))
+                (assoc :isOpenMatchingDialog false)))
+    (some-> @card-ref
+            (.addEventListener "touchstart" onSwipeCardTouchStart))
+    (some-> @card-ref
+            (.addEventListener "touchmove"
+                               onSwipeCardTouchMoved
+                               #js {"passive" false}))
+    (some-> @card-ref
+            (.addEventListener "touchend" onSwipeCardTouchEnd))
+    (when (= (-> props :cardItems count) 0)
+      ((:handleDidMount props)))))
+
+(defn- component-did-update
+  [this [_ old-props]]
+  (let [new-props (r/props this)]
+    (when (and (not= (some-> new-props :cardItems first .-id)
+                     (some-> old-props :cardItems first .-id))
+               (not (-> @approach-state :isSwipe))
+               (not (-> @approach-state :isFavorite)))
+      (swap! approach-state
+             #(-> %
+                  (assoc :firstItem (-> new-props :cardItems first))
+                  (assoc :secondItem (-> new-props :cardItems second)))))))
+
+(defn- component-will-unmount
+  [this]
+  (some-> @card-ref
+          (.removeEventListener "touchstart" onSwipeCardTouchStart))
+  (some-> @card-ref
+          (.removeEventListener "touchmove" onSwipeCardTouchMoved))
+  (some-> @card-ref
+          (.removeEventListener "touchend" onSwipeCardTouchEnd)))
 
 (def approach-component
   (with-meta
@@ -167,23 +187,21 @@
                         :animation-play-state (:isReturning @approach-state)}
                 :class (when (:isReturning @approach-state)
                          "swipe-animation")
-                :on-touch-start onSwipeCardTouchStart
-                :on-touch-move onSwipeCardTouchMoved
-                :on-touch-end onSwipeCardTouchEnd}
+                :ref (fn [ref] (reset! card-ref ref))}
           [swipe-card-item {:item (-> @approach-state :firstItem)
                             :handleClickCard #()}]]]
         [:div {:style {:will-change "transform"
                        :width "100%"}}
          [action-buttons {:onClickSkip #(onClickSkip props)
                           :onClickFavorite #(onClickFavorite props)}]]
-        
         [matching-dialog {:isOpen (:isOpenMatchingDialog @approach-state)
                           :me (js->clj me :keywordize-keys true)
                           :partner (-> @approach-state :matchingPartner (js->clj :keywordize-keys true))
                           :handleClickGoToProfile #(handleClickGoToProfile props %)
                           :handleClickBack handleCloseMatchingDialog}]]])
     {:component-did-mount component-did-mount
-     :component-did-update component-did-update}))
+     :component-did-update component-did-update
+     :component-will-unmount component-will-unmount}))
 
 (def approach
   (r/adapt-react-class
