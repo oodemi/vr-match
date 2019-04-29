@@ -22,6 +22,7 @@
                                      "position" "relative"
                                      "display" "flex"
                                      "flexDirection" "column"}
+                             :disableRipple true
                              :on-click #(handleClickCard id)}
        [mui/card-media {:style {"objectFit" "cover"
                                 "width" "86vw"

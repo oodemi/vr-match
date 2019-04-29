@@ -1,4 +1,3 @@
-
 (defn modules
   [output-dir]
   {:example {:entries #{"vr-match.example.container"}
