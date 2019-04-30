@@ -28,9 +28,6 @@
 
 (def card-ref (r/atom nil))
 
-(def approach-styles
-  #js {"root" #js {"height" "100%"}})
-
 (defn- onClickSkip
   [props]
   (swap! approach-state
@@ -251,7 +248,7 @@
   (some-> @card-ref
           (.removeEventListener "touchend" onSwipeCardTouchEnd)))
 
-(def approach-component
+(def approach
   (r/create-class
    {:display-name "approach-component"
     :reagent-render
@@ -261,13 +258,14 @@
                  handleClickSkip
                  handleClickFavorite] :as props}]
       [navigation-bar-layout {:title "アバターをさがす"}
-       [mui/grid {:container true
-                  :align-items "center"
-                  :justify "space-around"
-                  :direction "column"
-                  :class-name (.-root classes)}
-        [mui/grid {:container true
-                   :justify "center"}
+       [:div {:style {:height "100%"
+                      :display "flex"
+                      :flex-direction "column"
+                      :align-items "center"
+                      :justify-content "space-around"}}
+        [:div {:style {:display "flex"
+                       :justify-content "center"
+                       :flex-direction "column"}}
          ;; [cards {:firstItem (-> @approach-state :firstItem)
          ;;         :secondItem (-> @approach-state :secondItem)
          ;;         :isFavorite (-> @approach-state :isFavorite)
@@ -333,8 +331,3 @@
     :component-did-mount component-did-mount
     :component-did-update component-did-update
     :component-will-unmount component-will-unmount}))
-
-(def approach
-  (r/adapt-react-class
-   ((mui/with-styles approach-styles)
-    (r/reactify-component approach-component))))
