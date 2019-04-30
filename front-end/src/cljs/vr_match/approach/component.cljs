@@ -16,6 +16,7 @@
   (r/atom {:firstCard nil
            :secondCard nil
            :matchingPartner nil
+           :isDragging false
            :isSkip false
            :isFavorite false
            :isReturning false
@@ -33,8 +34,7 @@
 (defn- onClickSkip
   [props]
   (swap! approach-state
-         #(-> % (assoc :isSkip true)))
-  ((:handleClickSkip props)))
+         #(-> % (assoc :isSkip true))))
 
 (defn- onClickFavorite
   [props]
@@ -42,8 +42,7 @@
          #(-> %
               (assoc :isFavorite true)
               (assoc :isOpenMatchingDialog true)
-              (assoc :matchingPartner (-> @approach-state :firstItem))))
-  ((:handleClickFavorite props)))
+              (assoc :matchingPartner (-> @approach-state :firstItem)))))
 
 (defn- onSwipeCardTouchStart
   [event]
@@ -51,7 +50,10 @@
         position-y (-> event .-targetTouches (aget 0) .-pageY)]
     (-> approach-state
         (swap! #(-> %
+                    (assoc :isDragging true)
                     (assoc :isReturning false)
+                    (assoc :isSkip false)
+                    (assoc :isFavorite false)
                     (assoc-in [:swipeStartPosition :x] position-x)
                     (assoc-in [:swipeStartPosition :y] position-y)
                     (assoc-in [:swipeCurrentPosition :x] position-x)
@@ -72,28 +74,38 @@
   [event]
   (let [add-x (- (-> @approach-state :swipeCurrentPosition :x)
                  (-> @approach-state :swipeStartPosition :x))]
-    (println add-x)
     (cond (< add-x (- swipe-return-limit))
           (-> approach-state
-              (swap! #(-> % (assoc :isSkip true))))
+              (swap! #(-> % (assoc :isSkip true)
+                          (assoc :isDragging false))))
           (> add-x swipe-return-limit)
           (-> approach-state
-              (swap! #(-> % (assoc :isFavorite true))))
+              (swap! #(-> % (assoc :isFavorite true)
+                          (assoc :isDragging false))))
           :else
           (-> approach-state
-              (swap! #(-> % (assoc :isReturning true)))))))
+              (swap! #(-> % (assoc :isReturning true)
+                          (assoc :isDragging false)))))))
 
 (defn- handleOnExit
   [props]
-  (swap! approach-state
-         #(-> %
-              (assoc :isSkip false)
-              (assoc :isFavorite false)
-              (assoc :isReturning false)
-              (assoc :swipeStartPosition {:x 0 :y 0})
-              (assoc :swipeCurrentPosition {:x 0 :y 0})
-              (assoc :firstItem (-> props :cardItems first))
-              (assoc :secondItem (-> props :cardItems second)))))
+  (letfn [(shift-card-items [state]
+            (-> state
+                (assoc :firstItem (-> props :cardItems second))
+                (assoc :secondItem (-> props :cardItems (nth 3)))))]
+    (cond (:isSkip @approach-state)
+          (do (swap! approach-state shift-card-items)
+              (:handleClickSkip props))
+          (:isFavorite @approach-state)
+          (do (swap! approach-state shift-card-items)
+              (:handleClickFavorite props)))
+    (swap! approach-state
+           #(-> %
+                (assoc :isSkip false)
+                (assoc :isFavorite false)
+                (assoc :isReturning false)
+                (assoc :swipeStartPosition {:x 0 :y 0})
+                (assoc :swipeCurrentPosition {:x 0 :y 0})))))
 
 (defn- handleClickGoToProfile
   [props id]
@@ -141,7 +153,7 @@
                  (-> state :swipeStartPosition :x))
         add-y (- (-> state :swipeCurrentPosition :y)
                  (-> state :swipeStartPosition :y))
-        rotate (/ add-x 26)]
+        rotate (+ (/ add-x 26) 30)]
     (str
      "@keyframes favoriteSwipeCard {
      from {
@@ -154,7 +166,7 @@
    .favorite-animation {
      animation-name: favoriteSwipeCard;
      animation-duration: 300ms;
-     animation-timing-function: ease-out;
+     animation-timing-function: linear;
      animation-iteration-count: 1;
      animation-fill-mode: both;
    }")))
@@ -165,7 +177,7 @@
                  (-> state :swipeStartPosition :x))
         add-y (- (-> state :swipeCurrentPosition :y)
                  (-> state :swipeStartPosition :y))
-        rotate (/ add-x 26)]
+        rotate (- (/ add-x 26) 30)]
     (str
      "@keyframes skipSwipeCard {
      from {
@@ -178,7 +190,7 @@
    .skip-animation {
      animation-name: skipSwipeCard;
      animation-duration: 300ms;
-     animation-timing-function: ease-out;
+     animation-timing-function: linear;
      animation-iteration-count: 1;
      animation-fill-mode: both;
    }")))
@@ -212,7 +224,7 @@
     (some-> @card-ref
             (.addEventListener "touchend" onSwipeCardTouchEnd))
     (some-> @card-ref
-            (.addEventListener "animationend" #(handleOnExit props)))
+            (.addEventListener "animationend" #(-> this r/props handleOnExit)))
     (when (= (-> props :cardItems count) 0)
       ((:handleDidMount props)))))
 
@@ -222,7 +234,9 @@
     (when (and (not= (some-> new-props :cardItems first .-id)
                      (some-> old-props :cardItems first .-id))
                (not (-> @approach-state :isSkip))
-               (not (-> @approach-state :isFavorite)))
+               (not (-> @approach-state :isFavorite))
+               (not (-> @approach-state :isReturning))
+               (not (-> @approach-state :isDragging)))
       (swap! approach-state
              #(-> %
                   (assoc :firstItem (-> new-props :cardItems first))
@@ -238,13 +252,14 @@
           (.removeEventListener "touchend" onSwipeCardTouchEnd)))
 
 (def approach-component
-  (with-meta
-    (fn
-      [{:keys [me
-               classes
-               cardItems
-               handleClickSkip
-               handleClickFavorite] :as props}]
+  (r/create-class
+   {:display-name "approach-component"
+    :reagent-render
+    (fn [{:keys [me
+                 classes
+                 cardItems
+                 handleClickSkip
+                 handleClickFavorite] :as props}]
       [navigation-bar-layout {:title "アバターをさがす"}
        [mui/grid {:container true
                   :align-items "center"
@@ -266,18 +281,22 @@
                        (:isSkip @approach-state)
                        (state->skip-swipe-card-animation @approach-state)
                        :else nil)]
+         [:div {:style {:margin-bottom "-64vh"
+                        :z-index "1000"
+                        :position "relative"
+                        :will-change "transform"}}
+          [swipe-card-item {:item (-> @approach-state :secondItem)
+                            :handleClickCard #()}]]
          [:div {:style {:will-change "transform"
-                        :transform (when-not
-                                    (or (:isReturning @approach-state)
-                                        (:isFavorite @approach-state)
-                                        (:isSkip @approach-state))
+                        :transform (when (:isDragging @approach-state)
                                      (state->current-swipe-card-transform @approach-state))
                         :animation-play-state (when
                                                (or (:isReturning @approach-state)
                                                    (:isFavorite @approach-state)
                                                    (:isSkip @approach-state))
                                                 "running")
-                        :position "relative"}
+                        :position "relative"
+                        :z-index "1200"}
                 :class (cond (:isReturning @approach-state)
                              "return-animation"
                              (:isFavorite @approach-state)
@@ -311,9 +330,9 @@
                           :partner (-> @approach-state :matchingPartner (js->clj :keywordize-keys true))
                           :handleClickGoToProfile #(handleClickGoToProfile props %)
                           :handleClickBack handleCloseMatchingDialog}]]])
-    {:component-did-mount component-did-mount
-     :component-did-update component-did-update
-     :component-will-unmount component-will-unmount}))
+    :component-did-mount component-did-mount
+    :component-did-update component-did-update
+    :component-will-unmount component-will-unmount}))
 
 (def approach
   (r/adapt-react-class
