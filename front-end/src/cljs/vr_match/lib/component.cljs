@@ -46,7 +46,8 @@
              :align-items "center"
              :justify "center"
              :direction "column"
-             :style {:overflow "hidden"}}
+             :style {:overflow "hidden"
+                     :height "100%"}}
    [mui/grid {:item true
               :style {:width "100%"}}
     [header {:title title}]]
