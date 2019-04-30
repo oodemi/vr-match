@@ -52,8 +52,14 @@
 ;; material-ui/colors
 (def mui-color-red (.-red js/MaterialUIColors))
 
+(def primary-color "#ef5350")
+(def secondary-color mui-color-red)
+
+(def favorite-color primary-color)
+  (def skip-color "#e0e0e0")
+
 (defn theme []
   (create-mui-theme
    #js {"palette"
         #js {"primary" #js {"main" "#ef5350"}
-             "secondary" mui-color-red}}))
+             "secondary" secondary-color}}))
