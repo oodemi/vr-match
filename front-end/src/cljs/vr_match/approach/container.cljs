@@ -27,9 +27,9 @@
 
 (defn handle-did-mount
   []
-  (re-frame/dispatch [::approach-events/fetch-approach-list {:limit user-per-page}])
   (js/setTimeout
    (fn []
+     (re-frame/dispatch [::approach-events/fetch-approach-list {:limit user-per-page}])
      (swap! mock-approach-state
             #(-> %
                  (assoc :me {:id 1

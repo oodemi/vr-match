@@ -228,8 +228,8 @@
 (defn- component-did-update
   [this [_ old-props]]
   (let [new-props (r/props this)]
-    (when (and (not= (some-> new-props :cardItems first .-id)
-                     (some-> old-props :cardItems first .-id))
+    (when (and (not= (some-> new-props :cardItems first :id)
+                     (some-> old-props :cardItems first :id))
                (not (-> @approach-state :isSkip))
                (not (-> @approach-state :isFavorite))
                (not (-> @approach-state :isReturning))
