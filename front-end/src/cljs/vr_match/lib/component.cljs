@@ -42,18 +42,14 @@
 
 (defn navigation-bar-layout
   [{:keys [title] :as props} children]
-  [mui/grid {:container true
-             :align-items "center"
-             :justify "center"
-             :direction "column"
-             :style {:overflow "hidden"
-                     :height "100%"}}
-   [mui/grid {:item true
-              :style {:width "100%"}}
-    [header {:title title}]]
-   [mui/grid {:item true
-              :style {:height "calc(100% - 56px)"
-                      :width "100%"}}
+  [:div {:style {:position "relative"
+                 :overflow "hidden"
+                 :height "100%"}}
+   [header {:title title}]
+   [:div {:style {:padding-top "56px"
+                  :box-sizing "border-box"
+                  :height "100%"
+                  :width "100%"}}
     children]])
 
 (defn app []

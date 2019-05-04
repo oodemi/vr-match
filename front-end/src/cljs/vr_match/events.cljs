@@ -36,3 +36,13 @@
  ::api-error
  (fn [{:keys [db]} [_ error]]
    {:db (assoc db :api-error error)}))
+
+(re-frame/reg-event-db
+ ::open-drawer
+ (fn [db _]
+   (assoc-in db [:drawer :open?] true)))
+
+(re-frame/reg-event-db
+ ::close-drawer
+ (fn [db _]
+   (assoc-in db [:drawer :open?] false)))

@@ -35,6 +35,7 @@
 (def dialog-content (r/adapt-react-class js/MaterialUI.DialogContent))
 (def dialog-content-text (r/adapt-react-class js/MaterialUI.DialogContentText))
 (def dialog-actions (r/adapt-react-class js/MaterialUI.DialogActions))
+(def drawer (r/adapt-react-class js/MaterialUI.Drawer))
 (def form-control (r/adapt-react-class js/MaterialUI.FormControl))
 (def form-control-label (r/adapt-react-class js/MaterialUI.FormControlLabel))
 (def text-field (r/adapt-react-class js/MaterialUI.TextField))
@@ -42,6 +43,7 @@
 (def list-item (r/adapt-react-class js/MaterialUI.ListItem))
 (def list-item-avatar (r/adapt-react-class js/MaterialUI.ListItemAvatar))
 (def list-item-text (r/adapt-react-class js/MaterialUI.ListItemText))
+(def list-item-icon (r/adapt-react-class js/MaterialUI.ListItemIcon))
 
 ;; material-ui/styles
 (def with-styles (.-withStyles js/MaterialUIStyles))
