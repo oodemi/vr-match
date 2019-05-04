@@ -22,7 +22,9 @@
    :wizard {:container #(resolve 'vr-match.wizard.container/wizard)
             :module-name :wizard}
    :favorite {:container #(resolve 'vr-match.favorite.container/favorite)
-              :module-name :favorite}})
+              :module-name :favorite}
+   :matching {:container #(resolve 'vr-match.matching.container/matching)
+              :module-name :matching}})
 
 (defn- lazy-push
   [key params]
@@ -46,6 +48,9 @@
 
 (defroute favorite-path "/favorite" []
   (lazy-push :favorite {}))
+
+(defroute matching-path "/matching" []
+  (lazy-push :matching {}))
 
 (defroute not-found-path "*" []
   (lazy-push :approach {}))
