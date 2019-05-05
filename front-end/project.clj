@@ -24,6 +24,9 @@
    :matching {:entries #{"vr-match.matching.container"}
               :output-to (str output-dir "/matching.js")
               :depends-on #{:client}}
+   :myprofile {:entries #{"vr-match.myprofile.container"}
+               :output-to (str output-dir "/myprofile.js")
+               :depends-on #{:client}}
    ;; 分割されたモジュールをロードするために最低限必要なモジュール
    ;; モジュールの分割を行うと必ずこのモジュールが分割されるので出力先ファイル名だけ変更している
    :cljs-base {:output-to (str output-dir "/cljs_base.js")}
