@@ -5,23 +5,12 @@
             [vr-match.lib.models.me :as me]
             [vr-match.lib.components.material-ui :as mui]
             [vr-match.lib.components.drawer :refer [drawer]]
+            [vr-match.lib.components.elevation :as elevation]
             [vr-match.subs :as subs]
             [vr-match.events :as events]
             [re-frame.core :as re-frame]))
 
-(defn styles
-  [theme]
-  (js/console.log theme)
-  #js {"root" #js {"flexGrow" 1}
-       "appBar" #js {"zIndex" (+ (.. theme -zIndex -drawer) 1)}
-       "grow" #js {"flexGrow" 1}
-       "iconButton" #js {"width" 24
-                         "height" 24}
-       "menuButton" #js {"marginLeft" -12
-                         "marginRight" 20}})
-
 (s/def ::title string?)
-(s/def ::classses object?)
 (s/def ::isOpen boolean?)
 (s/def ::me ::me/me)
 (s/def ::handleOpenDrawer
@@ -44,7 +33,6 @@
            :ret nil))
 (s/def ::header-component-props
   (s/keys :req [::title
-                ::classes
                 ::isOpen
                 ::me
                 ::handleOpenDrawer
@@ -58,7 +46,6 @@
   :ret vector?)
 (defn- header-component
   [{:keys [title
-           classes
            isOpen
            me
            handleOpenDrawer
@@ -68,22 +55,20 @@
            handleClickFavorite
            handleClickMatching] :as props}]
   [:<>
-   [:div {:class-name (.-root classes)}
+   [:div {:style {:flex-grow 1}}
     [mui/app-bar {:position "fixed"
-                  :class-name (.-appBar classes)}
+                  :style {:z-index elevation/app-bar}}
      [mui/tool-bar
       [mui/icon-button {:color "inherit"
                         :aria-label "Menu"
-                        :class-name (.-menuButton classes)
                         :on-click (if isOpen handleClickClose handleOpenDrawer)}
        [mui/icon "menu"]]
       [mui/typo-graphy {:variant "title"
                         :color "inherit"
-                        :class-name (.-grow classes)}
+                        :style {:flex-grow 1}}
        title]]]]
    [drawer (-> props
                (dissoc :title)
-               (dissoc :classes)
                (dissoc :handleOpenDrawer))]])
 
 (defn- handle-open-drawer []
@@ -112,13 +97,13 @@
   (re-frame/dispatch [::events/push "/matching"])
   (handle-close-drawer))
 
-(s/def ::header-container-props
-  (s/keys :req [::title ::classes]))
-(s/fdef header-container
+(s/def ::header-props
+  (s/keys :req [::title]))
+(s/fdef header
   :args (s/cat :props ::header-container-props)
   :ret vector?)
-(defn- header-container
-  [{:keys [title classes]}]
+(defn header
+  [{:keys [title]}]
   (let [open-drawer? (re-frame/subscribe [::subs/open-drawer?])
         me {:id 1
             :title "サンプル画像"
@@ -126,8 +111,7 @@
             :introduction "バーチャル清楚系女子高校生Webアプリケーションエンジニアおじさんです。こっそりプログラミングしてます。"
             :platForms [{:id 1 :name "VRChat"} {:id 2 :name "VRoidHub"} {:id 3 :name "VirtualCast"}]
             :image ["https://storage.googleapis.com/boxp-tmp/profile_sample.png"]}]
-    [header-component {:classes classes
-                       :title title
+    [header-component {:title title
                        :isOpen @open-drawer?
                        :me me
                        :handleClickClose handle-close-drawer
@@ -136,11 +120,3 @@
                        :handleClickSearch handle-click-search
                        :handleClickFavorite handle-click-favorite
                        :handleClickMatching handle-click-matching}]))
-
-(s/def ::header-props
-  (s/keys :req [::title]))
-(s/fdef header
-  :args (s/cat :props ::header-props)
-  :ret vector?)
-(def header
-  (r/adapt-react-class ((mui/with-styles styles) (r/reactify-component header-container))))
